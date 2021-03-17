@@ -1,12 +1,17 @@
 <template>
   <div class="bg-transparent border-b
-    border-line py-5 flex justify-between items-center">
-    <h3
+    border-line py-5 flex justify-between items-center relative mx-6">
+    <div
+      :class="this.routePath === 'dashboard-home' 
+      ? 'flex flex-col' : ''">
+      <h3
       v-if="this.routePath === 'dashboard-home'"
-      class="font-bold text-4xl"
+      class="font-bold text-4xl pb-4"
     >
       Dashboard
     </h3>
+    <span class="text-sub text-sm absolute mt-12">Welcome Back!</span>
+    </div>
     <div class="flex justify-between items-center">
       <button
         class="bg-dashblack rounded

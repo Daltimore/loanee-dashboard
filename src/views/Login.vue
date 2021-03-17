@@ -47,6 +47,7 @@
             >Forgot Password</p>
           </div>
           <button
+            @click.prevent="login"
             class="bg-dashblack rounded mt-16
             w-36 h-11 text-center account text-white focus:outline-none"
           >
@@ -72,6 +73,9 @@ export default {
   methods: {
     goToForgotPassword() {
       this.$router.push({ name: 'forgot-password'})
+    },
+    login() {
+      this.$router.push({ name: 'dashboard-home'})
     }
   }
 }

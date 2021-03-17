@@ -20,6 +20,7 @@ module.exports = {
       line: '505A4796',
       secondary: '#7F8FA4',
       sub: '#646D82',
+      card: '#354052',
 
       black: colors.black,
       white: colors.white,
