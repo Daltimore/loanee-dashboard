@@ -79,7 +79,7 @@
               label="Status"
             >
               <template slot-scope="scope">
-                <span class="text-green-500">
+                <span class="text-tablegreen">
                   {{ scope.row.status }}
                 </span>
               </template>
@@ -202,8 +202,8 @@
 </template>
 
 <script>
-import SmallCardCarousel from '../components/SmallCardCarousel'
-import BigCardCarousel from '../components/BigCardCarousel'
+import SmallCardCarousel from '../../components/SmallCardCarousel'
+import BigCardCarousel from '../../components/BigCardCarousel'
 
 export default {
   components: {
