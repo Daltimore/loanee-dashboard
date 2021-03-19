@@ -8,7 +8,7 @@
           >
             {{ title1 }}
           </h3>
-          <h5 class="text-dashblack text-5xl pt-4 font-black font-f">
+          <h5 class="text-dashblack text-4xl pt-4 font-black font-f">
             {{ content1 }}<img :src="source1" />
           </h5>
         </div>
@@ -18,7 +18,7 @@
           <h3 class="text-card text-base font-semibold font-f">
             {{ title2 }}
           </h3>
-          <h5 class="text-dashblack text-5xl pt-4 font-black font-f">
+          <h5 class="text-dashblack text-4xl pt-4 font-black font-f">
             {{ content2 }}
           </h5>
         </div>
@@ -28,7 +28,7 @@
           <h3 class="text-card text-base font-semibold font-f">
             {{ title3 }}
           </h3>
-          <h5 class="text-dashblack text-5xl pt-4 font-black font-f">
+          <h5 class="text-dashblack text-4xl pt-4 font-black font-f">
             {{ content3 }}
           </h5>
         </div>
