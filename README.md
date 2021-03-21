@@ -1,4 +1,4 @@
-# loanee-dashboard
+# Maono-dashboard
 
 ## Project setup
 ```
