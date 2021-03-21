@@ -26,6 +26,7 @@ module.exports = {
       sub: '#646D82',
       card: '#354052',
       tablegreen: '#2EC114',
+      dash: '#E2E7EE',
 
       black: colors.black,
       white: colors.white,

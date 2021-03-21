@@ -29,7 +29,7 @@
       Organization
     </h3>
     <h3
-      v-if="this.routePath === 'customers'"
+      v-if="this.routePath === 'customers' || this.routePath === 'view-user'"
       class="font-bold text-4xl pb-4"
     >
       Customers
@@ -78,7 +78,7 @@
     </span>
     <span
       class="text-sub text-sm absolute -mt-2"
-      v-if="this.routePath === 'customers'"
+      v-if="this.routePath === 'customers' || this.routePath === 'view-user'"
     >
       Keep track of all Customers!
     </span>

@@ -65,6 +65,11 @@ export const router = new Router({
           path: 'system-log',
           name: 'system-log',
           component: () => import('@/views/Dashboard/SystemLog.vue')
+        },
+        {
+          path: 'view-user',
+          name: 'view-user',
+          component: () => import('@/views/Dashboard/ViewUser.vue')
         }
       ]
     }
