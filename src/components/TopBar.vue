@@ -1,104 +1,12 @@
 <template>
   <div class="bg-transparent border-b
     border-line py-5 flex justify-between items-center relative mx-2">
-    <div
-      :class="this.routePath === 'dashboard-home' 
-      ? 'flex flex-col' : ''">
-      <h3
-      v-if="this.routePath === 'dashboard-home'"
-      class="font-bold text-4xl pb-4"
-    >
-      Dashboard
+    <div>
+      <h3 class="font-bold text-4xl pb-4">
+      {{ header }}
     </h3>
-    <h3
-      v-if="this.routePath === 'manage-loans'"
-      class="font-bold text-4xl pb-4"
-    >
-      Manage Loans
-    </h3>
-    <h3
-      v-if="this.routePath === 'loan-request'"
-      class="font-bold text-4xl pb-4"
-    >
-      Loan Request
-    </h3>
-    <h3
-      v-if="this.routePath === 'organisation'"
-      class="font-bold text-4xl pb-4"
-    >
-      Organization
-    </h3>
-    <h3
-      v-if="this.routePath === 'customers' || this.routePath === 'view-user'"
-      class="font-bold text-4xl pb-4"
-    >
-      Customers
-    </h3>
-    <h3
-      v-if="this.routePath === 'system-users'"
-      class="font-bold text-4xl pb-4"
-    >
-      System Users
-    </h3>
-    <h3
-      v-if="this.routePath === 'user-groups'"
-      class="font-bold text-4xl pb-4"
-    >
-      User Groups
-    </h3>
-    <h3
-      v-if="this.routePath === 'system-log'"
-      class="font-bold text-4xl pb-4"
-    >
-      System Log
-    </h3>
-    <span
-      v-if="this.routePath === 'dashboard-home'"
-      class="text-sub text-sm absolute mt-12"
-    >
-      Welcome Back!
-    </span>
-    <span
-      class="text-sub text-sm absolute -mt-2"
-      v-if="this.routePath === 'manage-loans'"
-    >
-      Set up and modify loans
-    </span>
-    <span
-      class="text-sub text-sm absolute -mt-2"
-      v-if="this.routePath === 'loan-request'"
-    >
-      Have a view of all Loan requests
-    </span>
-    <span
-      class="text-sub text-sm absolute -mt-2"
-      v-if="this.routePath === 'organisation'"
-    >
-      Manage all pre-approved organizations
-    </span>
-    <span
-      class="text-sub text-sm absolute -mt-2"
-      v-if="this.routePath === 'customers' || this.routePath === 'view-user'"
-    >
-      Keep track of all Customers!
-    </span>
-    <span
-      class="text-sub text-sm absolute -mt-2"
-      v-if="this.routePath === 'system-users'"
-    >
-      Keep track of all System Users!
-    </span>
-    <span
-      class="text-sub text-sm absolute -mt-2"
-      v-if="this.routePath === 'user-groups'"
-    >
-      Keep track of all System Users!
-    </span>
-    <span
-      class="text-sub text-sm absolute -mt-2"
-      v-if="this.routePath === 'system-log'"
-    >
-      Monitor all activity that takes place on the platform
+    <span class="text-sub text-sm absolute -mt-3">
+      {{ subHeader }}
     </span>
     </div>
     <div class="flex justify-between items-center">
@@ -122,14 +30,54 @@
 export default {
   data() {
     return {
-      routePath: ''
+      routePath: '',
+      header: '',
+      subHeader: '',
     }
   },
-  mounted() {
-    this.routePath = this.$route.name;
-    console.log(this.routePath);
+  watch: {
+    $route: {
+      immediate: true,
+      handler(x) {
+        switch (x.name) {
+        case 'dashboard-home':
+          this.header = 'Dashboard'
+          this.subHeader = 'Welcome Back'
+          break;
+        case 'manage-loans':
+          this.header = 'Manage Loans'
+          this.subHeader = 'Set up and modify loans'
+        break;
+        case 'loan-request':
+          this.header = 'Loans Request'
+          this.subHeader = 'Have a view of all Loan requests'
+          break;
+        case 'organisation':
+          this.header = 'Organisation'
+          this.subHeader = 'Manage all pre-approved organizations'
+          break;
+        case 'customers':
+          this.header = 'Customers'
+          this.subHeader = 'Keep track of all Customers!'
+          break;
+        case 'system-users':
+          this.header = 'System Users'
+          this.subHeader = 'Keep track of all System Users!'
+          break;
+        case 'user-groups':
+          this.header = 'User Groups'
+          this.subHeader = 'Keep track of all System Users!'
+          break;
+        case 'system-log':
+          this.header = 'System Logs'
+          this.subHeader = 'Monitor all activity that takes place on the platform'
+          break;
+          default:
+            break;
+        }
+      }
+    }
   }
-
 }
 </script>
 
