@@ -31,7 +31,31 @@ export default {
             })
             reject(err)
           })
-      }
-    )}
+        }
+      )
+    },
+    forgotPassword({ commit }, payload) {
+      commit('mutate', {
+        property: 'loader',
+        with: true
+      })
+      return new Promise((resolve, reject) => {
+        Vue.$http.post('auth/password/forgot', payload)
+          .then((response) => {
+            commit('mutate', {
+              property: 'loader',
+              with: false
+            })
+            resolve(response);
+          })
+          .catch((err) => {
+            commit('mutate', {
+              property: 'loader',
+              with: false
+            })
+            reject(err)
+          })
+      })
+    }
   }
 }

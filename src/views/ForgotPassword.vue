@@ -26,16 +26,19 @@
           label-width="120px"
           class="px-32 mx-auto"
         >
-          <el-input
-            v-model="forgotPasswordForm.email"
-            placeholder="Email"
-          ></el-input>
+          <el-form-item prop="email">
+            <el-input
+              v-model="forgotPasswordForm.email"
+              placeholder="Email"
+            ></el-input>
+          </el-form-item>
           <div class="mt-10 flex justify-between items-center">
             <button
+              @click.prevent="handleSubmit"
               class="bg-dashblack rounded
               w-36 h-11 text-center account text-white focus:outline-none"
             >
-              Submit
+              {{ loader === true ? 'Submitting...' : 'Submit'}}
             </button>
             <button
               @click.prevent="goBack"
@@ -52,17 +55,50 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   data() {
     return {
+      loader: false,
       forgotPasswordForm: {
         email: ''
+      },
+      rules: {
+        email: [
+          {
+            required: true,
+            message: 'Please enter your email'
+          }
+        ]
       }
     }
   },
   methods: {
+    ...mapActions(['forgotPassword']),
     goBack() {
       this.$router.go(-1);
+    },
+    handleSubmit() {
+      this.loader = true
+      this.$refs['form'].validate((valid) => {
+        if(valid) {
+          const payload = {
+            email: this.forgotPasswordForm.email
+          }
+          this.forgotPassword(payload)
+            .then((res) => {
+              this.loader = false
+              if(res.status === 200) {
+                this.$refs['form'].resetFields()
+                this.$toastr.success(res.data.message)
+              }
+            })
+            .catch((err) => {
+              this.loader = false
+              this.$toastr.error(err.response.data.message)
+            })
+        }
+      })
     }
   }
 }
@@ -76,5 +112,8 @@ export default {
   border-top: none;
   border-right: none;
   border-left: none;
+}
+#login_container .el-form-item__content {
+  margin-left: 0px !important;
 }
 </style>
