@@ -102,6 +102,7 @@ export default {
       this.open1 = !this.open1
     },
     logout() {
+      localStorage.clear();
       this.$router.push({ name: "login"})
     }
   }

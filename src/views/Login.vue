@@ -23,18 +23,24 @@
         <el-form
           ref="form"
           :model="loginForm"
+          :rules="rules"
           label-width="120px"
           class="px-32 mx-auto"
         >
-          <el-input
-            v-model="loginForm.username"
-            placeholder="Username"
-          ></el-input>
-          <el-input
-            v-model="loginForm.password"
-            placeholder="Password"
-            class="mt-10"
-          ></el-input>
+          <el-form-item prop="username">
+            <el-input
+              v-model="loginForm.username"
+              placeholder="Username"
+            ></el-input>
+          </el-form-item>
+          <el-form-item prop="password">
+            <el-input
+              v-model="loginForm.password"
+              placeholder="Password"
+              show-password
+              class="mt-10"
+            ></el-input>
+          </el-form-item>
           <div class="mt-6 flex justify-between items-center">
             <div>
               <el-checkbox v-model="checked">
@@ -47,11 +53,11 @@
             >Forgot Password</p>
           </div>
           <button
-            @click.prevent="login"
+            @click.prevent="handleLogin"
             class="bg-dashblack rounded mt-16
             w-36 h-11 text-center account text-white focus:outline-none"
           >
-            Login
+            {{ user.loader === true ? 'Hang On...' : 'Login' }}
           </button>
         </el-form>
       </div>
@@ -60,22 +66,69 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex'
+
 export default {
   data() {
     return {
       loginForm: {
         username: '',
-        password: '',
-        checked: false
+        password: ''
+      },
+      checked: false,
+      rules: {
+        username: [
+          {
+            required: true,
+            message: 'Please enter your username',
+          }
+        ],
+        password: [
+          {
+            required: true,
+            message: 'Please enter your password',
+          }
+        ]
       }
     }
   },
+  mounted() {
+    if(Object.keys(this.$route.params).length > 0) {
+      this.$toastr.error(this.$route.params.message)
+      this.$toastr.info('Please Login again')
+    } else {
+      return false
+    }
+  },
+  computed: {
+    ...mapState(['user'])
+  },
   methods: {
+    ...mapActions(['login']),
     goToForgotPassword() {
       this.$router.push({ name: 'forgot-password'})
     },
-    login() {
-      this.$router.push({ name: 'dashboard-home'})
+    handleLogin() {
+      this.$refs['form'].validate((valid) => {
+        if(valid) {
+          const payload = {
+            username: this.loginForm.username,
+            password: this.loginForm.password,
+            client_id: process.env.VUE_APP_CLIENT_ID,
+            client_secret: process.env.VUE_APP_CLIENT_SECRET
+          }
+          this.login(payload)
+            .then((res) => {
+              this.$refs['form'].resetFields();
+              localStorage.setItem('maono_token', res.data.access_token);
+              this.$http.defaults.headers['Authorization'] = 'Bearer' + ' ' + res.data.access_token;
+              this.$router.push('/dashboard')
+            })
+            .catch((error) => {
+              this.$toastr.error(error.response.data.message);
+            })
+        }
+      })
     }
   }
 }
@@ -89,5 +142,9 @@ export default {
   border-top: none;
   border-right: none;
   border-left: none;
+}
+
+#login_container .el-form-item__content {
+  margin-left: 0px !important;
 }
 </style>

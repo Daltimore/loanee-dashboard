@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="manage-loans">
    <div class="flex justify-between items-center mt-3 pl-2">
     <h3
       class="font-semibold text-lg
@@ -46,35 +46,34 @@
    <div class="mt-10">
      <el-table
      style="width: 100%"
-     :data="tableData"
+     :data="loans.allLoanLevels"
+     v-loading="loans.loader"
     >
       <el-table-column
-        prop="loan_level"
+        prop="level"
         label="Loan Level"
       ></el-table-column>
       <el-table-column
         label="Amount (N)"
       >
         <template slot-scope="scope">
-          <span> {{ currencyFormat(scope.row.amount)}}</span>
+          <span> {{ scope.row.amount | currencyFormat}}</span>
         </template>
       </el-table-column>
       <el-table-column
-        prop="interest"
+        prop="interest_percentage_rate"
         label="Interest Rate"
       ></el-table-column>
-      <el-table-column
-        prop="duration"
-        label="Duration"
-      ></el-table-column>
-      <el-table-column
-        prop="date_created"
-        label="Date Created"
-      ></el-table-column>
-      <el-table-column
-        prop="date_created"
-        label="Date Created"
-      ></el-table-column>
+      <el-table-column label="Duration">
+        <template slot-scope="scope">
+          <span>{{ scope.row.duration }} months</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="Date Created">
+        <template slot-scope="scope">
+          <span>{{ scope.row.date_created | getFullDate}}</span>
+        </template>
+      </el-table-column>
       <el-table-column
         label="Status"
       >
@@ -88,23 +87,45 @@
           <span v-else class="text-red-600">Disabled</span>
         </template>
       </el-table-column>
+      <el-table-column
+        label="Actions"
+      >
+        <template slot-scope="scope">
+          <div class="flex">
+            <span
+              class="mx-3 cursor-pointer"
+              @click="editLoanLevel(scope.row.id)"
+            >
+              <img src="@/assets/img/edit.svg" alt="">
+            </span>
+            <span
+              class="cursor-pointer"
+              @click="deletLoanLevel(scope.row.id)"
+            >
+              <img src="@/assets/img/delete.svg" alt="">
+            </span>
+          </div>
+        </template>
+      </el-table-column>
      </el-table>
      <div class="mt-10">
       <el-pagination
         background
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page.sync="currentPage4"
-        :page-sizes="[10, 20, 30, 40]"
-        :page-size="10"
+        style="float: right;"
+        :current-page.sync="currentPage"
+        :page-sizes="pageSizes"
+        :page-size="loans.perPage"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="100">
+        :total="loans.allLoansTotal">
       </el-pagination>
      </div>
    </div>
    <el-dialog
       :visible.sync="dialogVisible"
       width="40%"
+      @close="handleClose"
     >
       <div class="p-6">
         <h3 class="text-dashblack font-bold text-2xl pb-8">Create New Loan</h3>
@@ -123,21 +144,21 @@
                 ></el-input>
               </div>
             </el-form-item>
-            <el-form-item prop="interst_rate">
+            <el-form-item prop="interest_percentage_rate">
               <div class="flex flex-col">
                 <label class="font-semibold">Interest Rate (%)</label>
                 <el-input
-                  v-model="newLoanForm.interst_rate"
+                  v-model="newLoanForm.interest_percentage_rate"
                   class="w-input"
                   placeholder="Enter Interest Rate"
                 ></el-input>
               </div>
             </el-form-item>
-            <el-form-item prop="loan_level">
+            <el-form-item prop="level">
               <div class="flex flex-col">
                 <label class="font-semibold">Loan Level</label>
                 <el-input
-                  v-model="newLoanForm.loan_level"
+                  v-model="newLoanForm.level"
                   class="w-input"
                   placeholder="Enter Loan Level"
                 ></el-input>
@@ -159,6 +180,7 @@
                 <el-select
                   v-model="newLoanForm.status"
                   placeholder="Status"
+                  @change="pickStatus"
                 >
                   <el-option
                     v-for="item in options"
@@ -171,12 +193,37 @@
             </el-form-item>
             <div>
               <button
-                class="rounded text-white font-semibold bg-dashblack px-6 py-3 mt-4 w-32 focus-outline"
+                @click.prevent="handleCreate"
+                class="rounded text-white font-semibold bg-dashblack px-6 py-3 mt-4 w-32 focus:outline-none"
               >
-                Submit
+                {{currentID === null ? 'Create' : 'Edit' }}
               </button>
             </div>
           </el-form>
+        </div>
+      </div>
+    </el-dialog>
+    <el-dialog
+      title=""
+      :visible.sync="deleteModal"
+      width="50%"
+    >
+      <div class="flex justify-center items-center flex-col">
+        <img src="@/assets/img/archive-warn.svg" alt="" />
+        <p class="text-gray-600 my-6 text-base">Are you sure you want to delete this Loan Level?</p>
+        <div class="flex justify-between item-center">
+          <button
+            class="border mr-8 border-dashblack py-3 w-32 rounded text-primary focus:outline-none"
+            @click.prevent="closeModal"
+          >
+            Cancel
+          </button>
+          <button
+            class="bg-dashblack rounded py-3 text-white w-32 focus:outline-none"
+            @click.prevent="handleDelete"
+          >
+            Delete
+          </button>
         </div>
       </div>
     </el-dialog>
@@ -184,129 +231,192 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex'
+
 export default {
   data() {
     return {
+      pageSize: this.$store.state.pageSizes,
+      deleteModal: false,
       newLoanForm: {
         amount: '',
-        interst_rate: '',
+        interest_percentage_rate: '',
         duration: '',
-        status: ''
+        status: '',
+        level: ''
       },
       value: '',
       input: '',
+      rules: {
+        amount: [
+          {
+            required: true,
+            message: 'Please enter an amount'
+          }
+        ],
+        interest_percentage_rate: [
+          {
+            required: true,
+            message: 'Please enter a interst_rate'
+          }
+        ],
+        level: [
+          {
+            required: true,
+            message: 'Please enter a loan_level'
+          }
+        ],
+        duration: [
+          {
+            required: true,
+            message: 'Please enter duration in months'
+          }
+        ],
+        status: [
+          {
+            required: true,
+            message: 'Please choose a status',
+            trigger: 'change'
+          }
+        ]
+      },
       dialogVisible: false,
-      currentPage4: 1,
+      loader: false,
       options: [{
-        value: 'Option1',
-        label: 'Option1'
-      }, {
-        value: 'Option2',
-        label: 'Option2'
-      }, {
-        value: 'Option3',
-        label: 'Option3'
-      }, {
-        value: 'Option4',
-        label: 'Option4'
-      }, {
-        value: 'Option5',
-        label: 'Option5'
-      }],
-      tableData: [
-        {
-          loan_level: 'level 1',
-          amount: 30000,
-          interest: 22,
-          duration: '1 month',
-          date_created: '11/03/2021',
-          status: 'enabled'
-        },
-        {
-          loan_level: 'level 1',
-          amount: 30000,
-          interest: 22,
-          duration: '1 month',
-          date_created: '11/03/2021',
-          status: 'enabled'
-        },
-        {
-          loan_level: 'level 1',
-          amount: 30000,
-          interest: 22,
-          duration: '1 month',
-          date_created: '11/03/2021',
-          status: 'enabled'
-        },
-        {
-          loan_level: 'level 1',
-          amount: 30000,
-          interest: 22,
-          duration: '1 month',
-          date_created: '11/03/2021',
-          status: 'enabled'
-        },
-        {
-          loan_level: 'level 1',
-          amount: 30000,
-          interest: 22,
-          duration: '1 month',
-          date_created: '11/03/2021',
-          status: 'enabled'
-        },
-        {
-          loan_level: 'level 1',
-          amount: 30000,
-          interest: 22,
-          duration: '1 month',
-          date_created: '11/03/2021',
-          status: 'enabled'
-        },
-        {
-          loan_level: 'level 1',
-          amount: 30000,
-          interest: 22,
-          duration: '1 month',
-          date_created: '11/03/2021',
-          status: 'disabled'
-        },
-        {
-          loan_level: 'level 1',
-          amount: 30000,
-          interest: 22,
-          duration: '1 month',
-          date_created: '11/03/2021',
-          status: 'enabled'
-        },
-        {
-          loan_level: 'level 1',
-          amount: 30000,
-          interest: 22,
-          duration: '1 month',
-          date_created: '11/03/2021',
-          status: 'disabled'
-        }
-      ]
+        value: 'enabled',
+        label: 'Enabled'
+      },
+      {
+        value: 'disabled',
+        label: 'Disabled'
+      },
+      ],
+      currentID: null,
+      deleteID: null,
+    }
+  },
+  mounted() {
+    this.getAllLoansLevels()
+  },
+  computed: {
+    ...mapState(['loans']),
+    currentPage: {
+      get() {
+        return this.loans.currentPage
+      },
+      set(value) {
+        return this.$store.commit('mutate', {
+          property: 'currentPage',
+          with: value
+        })
+      }
     }
   },
   methods: {
-    currencyFormat(number) {
-      return number ? number.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0
-    },
-    handleSizeChange(val) {
-      console.log(`${val} items per page`);
-    },
-    handleCurrentChange(val) {
-      console.log(`current page: ${val}`);
-    },
+    ...mapActions([
+      'getAllLoansLevels',
+      'createLoanLevel',
+      'handleSizeChange',
+      'handleCurrentChange'
+    ]),
     openModal() {
       this.dialogVisible = true;
+    },
+    pickStatus(val) {
+      this.newLoanForm.status = val
+    },
+    async editLoanLevel(id) {
+      this.loader = true
+      await this.$http.get(`admin/loans/settings/loan-levels/${id}`)
+        .then((res) => {
+          this.loader = false
+          this.newLoanForm = res.data.data
+          this.dialogVisible = true
+          this.currentID = this.newLoanForm.id
+          
+        })
+        .catch(error => {
+          this.loader = false
+          this.$toastr.error(error.response.data.message)
+        })
+    },
+    deletLoanLevel(id) {
+      this.deleteModal = true
+      this.deleteID = id
+    },
+    closeModal() {
+      this.deleteModal = false
+    },
+    handleDelete() {
+      this.loader = true
+      this.$http.delete(`admin/loans/settings/loan-levels/${this.deleteID}`)
+        .then(res => {
+          if (res.status === 200) {
+            this.loader = false
+            this.$toastr.success(res.data.message)
+            this.deleteModal = false
+            this.getAllLoansLevels()
+          }
+        })
+        .catch(error => {
+          this.loader = false
+          this.$toastr.error(error.response.data.message)
+        })
+    },
+    handleClose() {
+     this.currentID = null
+     this.$refs['newLoan'].resetFields()
+    },
+    handleCreate() {
+      this.$refs['newLoan'].validate((valid) => {
+        if(valid) {
+          const payload = {
+            amount: this.newLoanForm.amount,
+            interest_percentage_rate: this.newLoanForm.interest_percentage_rate,
+            level: this.newLoanForm.level,
+            duration: this.newLoanForm.duration,
+            status: this.newLoanForm.status,
+          }
+          if(this.currentID !== null) {
+            delete payload.level
+            this.$http.put(`admin/loans/settings/loan-levels/${this.currentID}`, payload)
+              .then((response) => {
+                if(response.status === 200) {
+                this.$toastr.success(response.data.message)
+                this.$refs['newLoan'].resetFields()
+                this.dialogVisible = false
+                this.currentID = null
+                this.getAllLoansLevels()
+              }
+              })
+              .catch((error) => {
+                this.$toastr.error(error.response.data.message)
+            })
+          } else {
+            this.createLoanLevel(payload)
+            .then((response) => {
+              if(response.status === 200) {
+                this.$toastr.success(response.data.message)
+                this.$refs['newLoan'].resetFields()
+                this.dialogVisible = false
+                this.getAllLoansLevels()
+              }
+            })
+            .catch((error) => {
+              this.$toastr.error(error.response.data.message)
+            })
+          }
+        }
+      })
     }
   }
 }
 </script>
 
 <style>
+#manage-loans {
+  font-family: 'Lato', sans-serif;
+}
 .el-pagination.is-background .el-pager li:not(.disabled).active {
   background-color: #11141A;
   color: #FFF;
