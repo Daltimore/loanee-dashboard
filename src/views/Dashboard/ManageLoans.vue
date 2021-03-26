@@ -236,7 +236,7 @@ import { mapActions, mapState } from 'vuex'
 export default {
   data() {
     return {
-      pageSize: this.$store.state.pageSizes,
+      pageSizes: this.$store.state.pageSizes,
       deleteModal: false,
       newLoanForm: {
         amount: '',
