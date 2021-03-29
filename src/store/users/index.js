@@ -4,6 +4,7 @@ export default {
   state: {
     loader: false,
     allUsers: [],
+    usersTotal: 0,
     currentPage: 1,
     perPage: 10
   },
@@ -29,7 +30,14 @@ export default {
               property: 'loader',
               with: false
             })
-            console.log(response);
+            commit('mutate', {
+              property: 'allUsers',
+              with: response.data.data.results
+            })
+            commit('mutate', {
+              property: 'usersTotal',
+              with: response.data.data.total
+            })
             resolve(response);
           })
           .catch((err) => {
@@ -37,7 +45,6 @@ export default {
               property: 'loader',
               with: false
             })
-            console.log(err);
             reject(err);
           })
       }

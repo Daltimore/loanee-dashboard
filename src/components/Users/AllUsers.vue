@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="all-users">
     <div class="flex justify-end">
       <div class="flex items-center mx-4">
         <p
@@ -10,7 +10,7 @@
           placeholder="Select filter option"
         >
           <el-option
-            v-for="item in options"
+            v-for="item in roles"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -36,14 +36,16 @@
       >
     </div>
     <div class="mt-10">
-      <el-table :data="tableData" width="100%">
+      <el-table :data="userData" width="100%">
         <el-table-column
-          prop="sn"
           label="S/N"
         >
+          <template slot-scope="scope">
+            <span>{{ scope.row.id }}</span>
+          </template>
         </el-table-column>
         <el-table-column
-          prop="user_name"
+          prop="username"
           label="Username"
         >
         </el-table-column>
@@ -53,14 +55,21 @@
         >
         </el-table-column>
         <el-table-column
-          prop="role"
           label="Role"
         >
+          <template slot-scope="scope">
+            <span v-if="scope.row.role === 'super_admin'">
+              Super Admin
+            </span>
+            <span v-else>Loanee</span>
+          </template>
         </el-table-column>
         <el-table-column
-          prop="date_added"
           label="Date Added"
         >
+          <template slot-scope="scope">
+            <span>{{ scope.row.date_created | getFullDate }}</span>
+          </template>
         </el-table-column>
         <el-table-column label="Status">
           <template slot-scope="scope">
@@ -105,7 +114,7 @@
           <div class="grid grid-cols-2 gap-6">
             <el-form-item prop="username">
               <div class="flex flex-col">
-                <label class="font-semibold">Amount (N)</label>
+                <label class="font-semibold">Username</label>
                 <el-input
                   v-model="newSystemUserForm.username"
                   class="w-input"
@@ -175,6 +184,9 @@
 
 <script>
 export default {
+  props: {
+    userData: Array
+  },
   data() {
     return {
       dialogVisible: false,
@@ -211,56 +223,6 @@ export default {
       input: '',
       value: '',
       currentPage4: 1,
-      options: [{
-        value: 'Option1',
-        label: 'Option1'
-      }, {
-        value: 'Option2',
-        label: 'Option2'
-      }, {
-        value: 'Option3',
-        label: 'Option3'
-      }, {
-        value: 'Option4',
-        label: 'Option4'
-      }, {
-        value: 'Option5',
-        label: 'Option5'
-      }],
-      tableData: [
-        {
-          sn: 1,
-          user_name: 'Moyo Mustapha',
-          email: 'ayomide@21st.com',
-          role: 'Super Admin',
-          date_added: '11/03/2021',
-          status: 'enabled',
-        },
-        {
-          sn: 2,
-          user_name: 'Moyo Mustapha',
-          email: 'ayomide@21st.com',
-          role: 'Super Admin',
-          date_added: '11/03/2021',
-          status: 'enabled',
-        },
-        {
-          sn: 3,
-          user_name: 'Moyo Mustapha',
-          email: 'ayomide@21st.com',
-          role: 'Super Admin',
-          date_added: '11/03/2021',
-          status: 'disabled',
-        },
-        {
-          sn: 4,
-          user_name: 'Moyo Mustapha',
-          email: 'ayomide@21st.com',
-          role: 'Super Admin',
-          date_added: '11/03/2021',
-          status: 'enabled',
-        }
-      ]
     }
   },
   methods: {
@@ -291,5 +253,9 @@ export default {
 .el-input.is-active .el-input__inner, .el-input__inner:focus {
   border-color: #11141A;
   outline: 0;
+}
+
+#all-users {
+  font-family: 'Lato', sans-serif;
 }
 </style>

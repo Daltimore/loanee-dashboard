@@ -1,20 +1,25 @@
 <template>
   <div>
-    <el-tabs v-model="activeName" @tab-click="handleClick">
+    <el-tabs
+      v-model="activeName"
+      @tab-click="handleClick"
+      v-if="user.allUsers"
+    >
       <el-tab-pane label="All Users" name="first">
-        <all-users></all-users>
+        <all-users :userData="user.allUsers"></all-users>
       </el-tab-pane>
       <el-tab-pane label="Admin" name="second">
-        <admin></admin>
+        <admin :userData="user.allUsers"></admin>
       </el-tab-pane>
       <el-tab-pane label="Users" name="third">
-        <normal-users></normal-users>
+        <normal-users :userData="user.allUsers"></normal-users>
       </el-tab-pane>
   </el-tabs>
   </div>
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex'
 import AllUsers from '../../components/Users/AllUsers'
 import Admin from '../../components/Users/Admin'
 import NormalUsers from '../../components/Users/NormalUser'
@@ -28,12 +33,21 @@ export default {
   data() {
     return {
       activeName: 'first',
+      adminUsers: [],
+      activeTab: null
     }
   },
+  async mounted() {
+    await this.getAllUsers()
+  },
+  computed: {
+    ...mapState(['user'])
+  },
   methods: {
+    ...mapActions(['getAllUsers']),
     handleClick(tab) {
-      console.log(tab);
-    }
+      this.activeTab = tab.name
+    },
   }
 }
 </script>
