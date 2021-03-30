@@ -108,7 +108,7 @@
         </template>
       </el-table-column>
      </el-table>
-     <div class="mt-10">
+     <div class="mt-10" v-if="loans.allLoanLevels.length > 0">
       <el-pagination
         background
         @size-change="handleSizeChange"
@@ -282,7 +282,8 @@ export default {
       },
       dialogVisible: false,
       loader: false,
-      options: [{
+      options: [
+      {
         value: 'enabled',
         label: 'Enabled'
       },

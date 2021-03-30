@@ -87,18 +87,19 @@
           </template>
         </el-table-column>
       </el-table>
-      <div class="mt-10">
+      <!-- <div class="mt-10">
         <el-pagination
           background
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
-          :current-page.sync="currentPage4"
-          :page-sizes="[10, 20, 30, 40]"
-          :page-size="10"
+          style="float: right;"
+          :current-page.sync="currentPage"
+          :page-sizes="pageSizes"
+          :page-size="user.perPage"
           layout="total, sizes, prev, pager, next, jumper"
-          :total="100">
+          :total="user.usersTotal">
         </el-pagination>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -112,8 +113,8 @@ export default {
     return {
       input: '',
       value: '',
+      pageSizes: this.$store.state.pageSizes,
       allAdminUsers: [],
-      currentPage4: 1,
       roles: [
         {
           value: 'super_admin',
@@ -136,14 +137,6 @@ export default {
         return user
       }
     })
-  },
-  methods: {
-    handleSizeChange(val) {
-      console.log(`${val} items per page`);
-    },
-    handleCurrentChange(val) {
-      console.log(`current page: ${val}`);
-    }
   }
 }
 </script>

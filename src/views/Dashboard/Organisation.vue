@@ -46,32 +46,29 @@
    <div class="mt-10">
      <el-table
      style="width: 100%"
-     :data="tableData"
+     :data="company.allCompanies"
+     v-loading="company.loader"
     >
       <el-table-column
-        prop="company_id"
-        label="Company ID"
-      ></el-table-column>
-      <el-table-column
-        prop="company_name"
+        prop="name"
         label="Company Name"
       >
       </el-table-column>
       <el-table-column
-        prop="email"
+        prop="contact_email"
         label="Email"
       ></el-table-column>
       <el-table-column
-        prop="contact_number"
+        prop="contact_phone"
         label="Contact Number"
       ></el-table-column>
       <el-table-column
-        prop="no_of_staff"
+        prop="number_of_employees"
         label="Number of Staff"
       ></el-table-column>
       <el-table-column
-        prop="date_joined"
-        label="Date Joined"
+        prop="address"
+        label="Address"
       >
       </el-table-column>
      </el-table>
@@ -80,11 +77,12 @@
         background
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page.sync="currentPage4"
-        :page-sizes="[10, 20, 30, 40]"
-        :page-size="10"
+        style="float: right;"
+        :current-page.sync="currentPage"
+        :page-sizes="pageSizes"
+        :page-size="company.perPage"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="100">
+        :total="company.companiesTotal">
       </el-pagination>
      </div>
    </div>
@@ -103,37 +101,37 @@
               <div class="flex flex-col">
                 <label class="font-semibold">Company Name</label>
                 <el-input
-                  v-model="addCompanyForm.company_name"
+                  v-model="addCompanyForm.name"
                   class="w-input"
-                  placeholder="AEnter Company Name"
+                  placeholder="Enter Company Name"
                 ></el-input>
               </div>
             </el-form-item>
-            <el-form-item prop="email">
+            <el-form-item prop="contact_email">
               <div class="flex flex-col">
                 <label class="font-semibold">Contact Email</label>
                 <el-input
-                  v-model="addCompanyForm.email"
+                  v-model="addCompanyForm.contact_email"
                   class="w-input"
                   placeholder="Enter Contact Email"
                 ></el-input>
               </div>
             </el-form-item>
-            <el-form-item prop="contact_number">
+            <el-form-item prop="contact_phone">
               <div class="flex flex-col">
                 <label class="font-semibold">Contact Number</label>
                 <el-input
-                  v-model="addCompanyForm.contact_number"
+                  v-model="addCompanyForm.contact_phone"
                   class="w-input"
                   placeholder="Enter Contact Number"
                 ></el-input>
               </div>
             </el-form-item>
-            <el-form-item prop="no_of_staff">
+            <el-form-item prop="number_of_employees">
               <div class="flex flex-col">
                 <label class="font-semibold">Number of Staff</label>
                 <el-input
-                  v-model="addCompanyForm.no_of_staff"
+                  v-model="addCompanyForm.number_of_employees"
                   class="w-input"
                   placeholder="Enter Number of Staff"
                 ></el-input>
@@ -151,6 +149,7 @@
             </el-form-item>
             <div>
               <button
+                @click.prevent="handleCreate"
                 class="rounded text-white font-semibold bg-dashblack px-6 py-3 mt-4 w-32 focus-outline"
               >
                 Submit
@@ -164,124 +163,119 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex'
+
 export default {
   data() {
     return {
+      pageSizes: this.$store.state.pageSizes,
       addCompanyForm: {
-        company_name: '',
-        email: '',
-        contact_number: '',
-        no_of_staff: '',
+        name: '',
+        contact_email: '',
+        contact_phone: '',
+        number_of_employees: '',
         address: ''
+      },
+      rules: {
+        name: [
+          {
+            required: true,
+            message: 'Please enter company name'
+          }
+        ],
+        contact_email: [
+          {
+            required: true,
+            message: 'Please enter company contact email'
+          }
+        ],
+        contact_phone: [
+          {
+            required: true,
+            message: 'Please enter company contact phone'
+          }
+        ],
+        number_of_employees: [
+          {
+            required: true,
+            message: 'Please enter number of employees'
+          }
+        ],
+        address: [
+          {
+            required: true,
+            message: 'Please enter company address'
+          }
+        ]
       },
       value: '',
       input: '',
-      currentPage4: 1,
       dialogVisible: false,
-      options: [{
+      options: [
+      {
         value: 'Option1',
         label: 'Option1'
-      }, {
+      },
+      {
         value: 'Option2',
         label: 'Option2'
-      }, {
-        value: 'Option3',
-        label: 'Option3'
-      }, {
-        value: 'Option4',
-        label: 'Option4'
-      }, {
-        value: 'Option5',
-        label: 'Option5'
-      }],
-      tableData: [
-        {
-          company_id: 'PRE/001',
-          company_name: '21st Century Evolution',
-          email: 'hr@21st.com',
-          contact_number: '08012345678',
-          no_of_staff: 65,
-          date_joined: '11-03-2021'
-        },
-        {
-          company_id: 'PRE/001',
-          company_name: '21st Century Evolution',
-          email: 'hr@21st.com',
-          contact_number: '08012345678',
-          no_of_staff: 65,
-          date_joined: '11-03-2021'
-        },
-        {
-          company_id: 'PRE/001',
-          company_name: '21st Century Evolution',
-          email: 'hr@21st.com',
-          contact_number: '08012345678',
-          no_of_staff: 65,
-          date_joined: '11-03-2021'
-        },
-        {
-          company_id: 'PRE/001',
-          company_name: '21st Century Evolution',
-          email: 'hr@21st.com',
-          contact_number: '08012345678',
-          no_of_staff: 65,
-          date_joined: '11-03-2021'
-        },
-        {
-          company_id: 'PRE/001',
-          company_name: '21st Century Evolution',
-          email: 'hr@21st.com',
-          contact_number: '08012345678',
-          no_of_staff: 65,
-          date_joined: '11-03-2021'
-        },
-        {
-          company_id: 'PRE/001',
-          company_name: '21st Century Evolution',
-          email: 'hr@21st.com',
-          contact_number: '08012345678',
-          no_of_staff: 65,
-          date_joined: '11-03-2021'
-        },
-        {
-          company_id: 'PRE/001',
-          company_name: '21st Century Evolution',
-          email: 'hr@21st.com',
-          contact_number: '08012345678',
-          no_of_staff: 65,
-          date_joined: 'disabled'
-        },
-        {
-          company_id: 'PRE/001',
-          company_name: '21st Century Evolution',
-          email: 'hr@21st.com',
-          contact_number: '08012345678',
-          no_of_staff: 65,
-          date_joined: '11-03-2021'
-        },
-        {
-          company_id: 'PRE/001',
-          company_name: '21st Century Evolution',
-          email: 'hr@21st.com',
-          contact_number: '08012345678',
-          no_of_staff: 65,
-          date_joined: 'disabled'
-        }
-      ]
+      }]
+    }
+  },
+  async mounted() {
+    await this.getAllCompanies()
+  },
+  computed: {
+    ...mapState(['company']),
+    currentPage: {
+      get() {
+        return this.company.currentPage
+      },
+      set(value) {
+        return this.$store.commit('mutate', {
+          property: 'currentPage',
+          with: value
+        })
+      }
     }
   },
   methods: {
+    ...mapActions([
+      'getAllCompanies',
+      'handleSizeChange',
+      'handleCurrentChange',
+      'createCompany'
+    ]),
     currencyFormat(number) {
       return number ? number.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0
     },
-    handleSizeChange(val) {
-      console.log(`${val} items per page`);
-    },
-    handleCurrentChange(val) {
-      console.log(`current page: ${val}`);
-    },
     openModal() {
       this.dialogVisible = true;
+    },
+    handleCreate() {
+      this.$refs['addCompany'].validate((valid) => {
+        if(valid) {
+          const payload = {
+            name: this.addCompanyForm.name,
+            contact_email: this.addCompanyForm.contact_email,
+            contact_phone: this.addCompanyForm.contact_phone,
+            number_of_employees: this.addCompanyForm.number_of_employees,
+            address: this.addCompanyForm.address,
+          }
+          this.createCompany(payload)
+            .then((response) => {
+              if(response.status === 200) {
+                this.$toastr.success(response.data.message)
+                this.$refs['addCompany'].resetFields()
+                this.dialogVisible = false
+                this.getAllCompanies()
+              }
+            })
+            .catch((err) => {
+              this.$toastr.error(err.response.data.message)
+            })
+        }
+      })
     }
   }
 }

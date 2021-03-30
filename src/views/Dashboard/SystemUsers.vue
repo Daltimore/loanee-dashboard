@@ -6,7 +6,11 @@
       v-if="user.allUsers"
     >
       <el-tab-pane label="All Users" name="first">
-        <all-users :userData="user.allUsers"></all-users>
+        <all-users
+          :userData="user.allUsers"
+          @handleSizeChange="handleSizeChange"
+          @handleCurrentChange="handleCurrentChange"
+        ></all-users>
       </el-tab-pane>
       <el-tab-pane label="Admin" name="second">
         <admin :userData="user.allUsers"></admin>
@@ -44,7 +48,11 @@ export default {
     ...mapState(['user'])
   },
   methods: {
-    ...mapActions(['getAllUsers']),
+    ...mapActions([
+      'getAllUsers',
+      'handleSizeChange',
+      'handleCurrentChange'
+    ]),
     handleClick(tab) {
       this.activeTab = tab.name
     },

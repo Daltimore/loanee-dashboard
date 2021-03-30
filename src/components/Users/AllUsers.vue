@@ -88,16 +88,17 @@
           </template>
         </el-table-column>
       </el-table>
-      <div class="mt-10">
+      <div class="mt-10" v-if="user.allUsers.length > 0">
         <el-pagination
           background
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
-          :current-page.sync="currentPage4"
-          :page-sizes="[10, 20, 30, 40]"
-          :page-size="10"
+          style="float: right;"
+          :current-page.sync="currentPage"
+          :page-sizes="pageSizes"
+          :page-size="user.perPage"
           layout="total, sizes, prev, pager, next, jumper"
-          :total="100">
+          :total="user.usersTotal">
         </el-pagination>
       </div>
     </div>
@@ -183,12 +184,15 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   props: {
     userData: Array
   },
   data() {
     return {
+      pageSizes: this.$store.state.pageSizes,
       dialogVisible: false,
       newSystemUserForm: {
         username: '',
@@ -222,15 +226,28 @@ export default {
       ],
       input: '',
       value: '',
-      currentPage4: 1,
+    }
+  },
+  computed: {
+    ...mapState(['user']),
+    currentPage: {
+      get() {
+        return this.$store.state.loans.currentPage
+      },
+      set(value) {
+        return this.$store.commit('mutate', {
+          property: 'currentPage',
+          with: value
+        })
+      }
     }
   },
   methods: {
-    handleSizeChange(val) {
-      console.log(`${val} items per page`);
+    handleSizeChange() {
+      this.$store.dispatch('handleSizeChange')
     },
-    handleCurrentChange(val) {
-      console.log(`current page: ${val}`);
+    handleCurrentChange() {
+      this.$store.dispatch('handleCurrentChange')
     },
     openModal() {
       this.dialogVisible = true
