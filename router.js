@@ -47,6 +47,11 @@ export const router = new Router({
           component: () => import('@/views/Dashboard/Organisation.vue')
         },
         {
+          path: 'view-organisation/:name',
+          name: 'view-organisation',
+          component: () => import('@/views/Dashboard/ViewOrganization.vue')
+        },
+        {
           path: 'customers',
           name: 'customers',
           component: () => import('@/views/Dashboard/Customers.vue')

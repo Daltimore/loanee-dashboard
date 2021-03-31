@@ -72,6 +72,10 @@ export default {
           this.header = 'System Logs'
           this.subHeader = 'Monitor all activity that takes place on the platform'
           break;
+        case 'view-organisation':
+          this.header = 'Organisation'
+          this.subHeader = 'Manage all pre-approved organizations'
+          break;
           default:
             break;
         }

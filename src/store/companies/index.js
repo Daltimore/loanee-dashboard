@@ -4,8 +4,11 @@ export default {
   state: {
     loader: false,
     allCompanies: [],
+    allCompaniesEmployees: [],
+    companyEmployeesTotal: 0,
     perPage: 10,
     currentPage: 1,
+    employeesCurrentPage: 1,
     companiesTotal: 0,
     searchQuery: ''
   },
@@ -74,6 +77,41 @@ export default {
           })
       })
     },
+    getCompanyEmployees({ commit, state }, id) {
+      commit('mutate', {
+        property: 'loader',
+        with: true
+      })
+      return new Promise((resolve, reject) => {
+        const params = {
+          page: state.employeesCurrentPage,
+          per_page: state.perPage,
+        }
+        Vue.$http.get(`admin/companies/${id}/employees`, { params })
+          .then((res) => {
+            commit('mutate', {
+              property: 'loader',
+              with: false
+            })
+            commit('mutate', {
+              property: 'allCompaniesEmployees',
+              with: res.data.data.results
+            })
+            commit('mutate', {
+              property: 'companyEmployeesTotal',
+              with: res.data.data.total
+            })
+            resolve(res)
+          })
+          .catch((err) => {
+            commit('mutate', {
+              property: 'loader',
+              with: false
+            })
+            reject(err)
+          })
+      })
+    },
     handleSizeChange({ commit, dispatch }, perPage) {
       commit('mutate', {
         property: 'perPage',
@@ -92,5 +130,23 @@ export default {
       })
       dispatch('getAllCompanies')
     },
+    employeeshandleSizeChange({ commit, dispatch }, perPage) {
+      commit('mutate', {
+        property: 'perPage',
+        with: perPage
+      })
+      commit('mutate', {
+        property: 'employeesCurrentPage',
+        with: 1
+      })
+      dispatch('getCompanyEmployees')
+    },
+    employeesCurrentChange({ commit, dispatch }, page) {
+      commit('mutate', {
+        property: 'employeesCurrentPage',
+        with: page
+      })
+      dispatch('getCompanyEmployees')
+    }
   }
 }

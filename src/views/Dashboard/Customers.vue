@@ -40,7 +40,8 @@
    <div class="mt-10">
      <el-table
      style="width: 100%"
-     :data="tableData"
+     :data="loans.allLoanees"
+     v-loading="loans.loader"
     >
       <el-table-column
         prop="full_name"
@@ -60,16 +61,17 @@
         label="Loan Level"
       ></el-table-column>
      </el-table>
-     <div class="mt-10">
+     <div class="mt-10" v-if="loans.allLoanees">
       <el-pagination
         background
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page.sync="currentPage4"
-        :page-sizes="[10, 20, 30, 40]"
-        :page-size="10"
+        @size-change="loaneesHandleSizeChange"
+        @current-change="loaneesHandleCurrentChange"
+        style="float: right;"
+        :current-page.sync="currentPage"
+        :page-sizes="pageSizes"
+        :page-size="loans.loaneesCurrentPage"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="100">
+        :total="loans.loaneesTotal">
       </el-pagination>
      </div>
    </div>
@@ -77,99 +79,64 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex'
+
 export default {
   data() {
     return {
+      pageSizes: this.$store.state.pageSizes,
       value: '',
       input: '',
       currentPage4: 1,
-      options: [{
-        value: 'Option1',
-        label: 'Option1'
-      }, {
-        value: 'Option2',
-        label: 'Option2'
-      }, {
-        value: 'Option3',
-        label: 'Option3'
-      }, {
-        value: 'Option4',
-        label: 'Option4'
-      }, {
-        value: 'Option5',
-        label: 'Option5'
-      }],
-      tableData: [
+      options: [
         {
-          full_name: 'PRE/001',
-          email: 'hr@21st.com',
-          contact_number: '08012345678',
-          loan_level: 'Level 3'
-
+          value: 'enabled',
+          label: 'Enabled'
         },
         {
-          full_name: 'PRE/001',
-          email: 'hr@21st.com',
-          contact_number: '08012345678',
-          loan_level: 'Level 3'
-        },
-        {
-          full_name: 'PRE/001',
-          email: 'hr@21st.com',
-          contact_number: '08012345678',
-          loan_level: 'Level 3'
-        },
-        {
-          full_name: 'PRE/001',
-          email: 'hr@21st.com',
-          contact_number: '08012345678',
-          loan_level: 'Level 3'
-        },
-        {
-          full_name: 'PRE/001',
-          email: 'hr@21st.com',
-          contact_number: '08012345678',
-          loan_level: 'Level 3'
-        },
-        {
-          full_name: 'PRE/001',
-          email: 'hr@21st.com',
-          contact_number: '08012345678',
-          loan_level: 'Level 3'
-        },
-        {
-          full_name: 'PRE/001',
-          email: 'hr@21st.com',
-          contact_number: '08012345678',
-          loan_level: 'Level 3'
-        },
-        {
-          full_name: 'PRE/001',
-          email: 'hr@21st.com',
-          contact_number: '08012345678',
-          loan_level: 'Level 3'
-          
-        },
-        {
-          full_name: 'PRE/001',
-          email: 'hr@21st.com',
-          contact_number: '08012345678',
-          loan_level: 'Level 3'
+          value: 'disabled',
+          label: 'Disabled'
         }
-      ]
+      ],
+    }
+  },
+  mounted() {
+    this.getAllLoanees()
+  },
+  computed: {
+    ...mapState(['loans']),
+    currentPage: {
+      get() {
+        return this.loans.loaneesCurrentPage
+      },
+      set(value) {
+        return this.$store.commit('mutate', {
+          property: 'loaneesCurrentPage',
+          with: value
+        })
+      }
+    },
+    searchQuery: {
+      get() {
+        return this.loans.searchQuery
+      },
+      set(value) {
+        return this.$store.commit('mutate', {
+          property: 'searchQuery',
+          with: value
+        })
+      }
     }
   },
   methods: {
+    ...mapActions([
+    'getAllLoanees',
+    'loaneesHandleSizeChange',
+    'loaneesHandleCurrentChange'
+  ]),
     currencyFormat(number) {
       return number ? number.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0
-    },
-    handleSizeChange(val) {
-      console.log(`${val} items per page`);
-    },
-    handleCurrentChange(val) {
-      console.log(`current page: ${val}`);
-    },
-    
+    }
   }
 }
 </script>

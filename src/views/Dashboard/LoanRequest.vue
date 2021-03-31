@@ -40,7 +40,7 @@
    <div class="mt-10">
      <el-table
      style="width: 100%"
-     :data="loans.allLoanees"
+     :data="loans.allLoanRequests"
      v-loading="loans.loader"
     >
       <el-table-column
@@ -89,14 +89,14 @@
      <div class="mt-10" v-if="loans.allLoanees">
       <el-pagination
         background
-        @size-change="loaneesHandleSizeChange"
-        @current-change="loaneesHandleCurrentChange"
+        @size-change="loanRequestHandleSizeChange"
+        @current-change="loanRequestHandleCurrentChange"
         style="float: right;"
         :current-page.sync="currentPage"
         :page-sizes="pageSizes"
-        :page-size="loans.loaneesCurrentPage"
+        :page-size="loans.loanRequestCurrentPage"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="loans.loaneesTotal">
+        :total="loans.loanRequestsTotal">
       </el-pagination>
      </div>
    </div>
@@ -112,7 +112,6 @@ export default {
       pageSizes: this.$store.state.pageSizes,
       value: '',
       input: '',
-      currentPage4: 1,
       options: [
         {
           value: 'enabled',
@@ -126,17 +125,17 @@ export default {
     }
   },
   mounted() {
-    this.getAllLoanees()
+    this.getAllLoanRequests()
   },
   computed: {
     ...mapState(['loans']),
     currentPage: {
       get() {
-        return this.loans.loaneesCurrentPage
+        return this.loans.loanRequestCurrentPage
       },
       set(value) {
         return this.$store.commit('mutate', {
-          property: 'loaneesCurrentPage',
+          property: 'loanRequestCurrentPage',
           with: value
         })
       }
@@ -155,9 +154,9 @@ export default {
   },
   methods: {
     ...mapActions([
-    'getAllLoanees',
-    'loaneesHandleSizeChange',
-    'loaneesHandleCurrentChange'
+    'getAllLoanRequests',
+    'loanRequestHandleSizeChange',
+    'loanRequestHandleCurrentChange'
   ]),
     currencyFormat(number) {
       return number ? number.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0

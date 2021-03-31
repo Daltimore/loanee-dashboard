@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="organisation">
    <div class="flex justify-between items-center mt-3 pl-2">
     <h3
       class="font-semibold text-lg
@@ -71,6 +71,26 @@
         label="Address"
       >
       </el-table-column>
+      <el-table-column
+        label="Actions"
+      >
+        <template slot-scope="scope">
+          <div class="flex">
+            <span
+              class="mx-3 cursor-pointer"
+              @click="viewCompany(scope.row)"
+            >
+              <img src="@/assets/img/eye.svg" alt="">
+            </span>
+            <span
+              class="mx-3 cursor-pointer"
+              @click="editCompany(scope.row.id)"
+            >
+              <img src="@/assets/img/edit.svg" alt="">
+            </span>
+          </div>
+        </template>
+      </el-table-column>
      </el-table>
      <div class="mt-10">
       <el-pagination
@@ -89,6 +109,7 @@
    <el-dialog
       :visible.sync="dialogVisible"
       width="40%"
+      @close="handleClose"
     >
       <div class="p-6">
         <h3 class="text-dashblack font-bold text-2xl pb-8">Add Company</h3>
@@ -150,9 +171,9 @@
             <div>
               <button
                 @click.prevent="handleCreate"
-                class="rounded text-white font-semibold bg-dashblack px-6 py-3 mt-4 w-32 focus-outline"
+                class="rounded text-white font-semibold bg-dashblack px-6 py-3 mt-4 w-32 focus:outline-none"
               >
-                Submit
+                {{currentId === null ? 'Submit' : 'Edit' }}
               </button>
             </div>
           </el-form>
@@ -169,6 +190,7 @@ export default {
   data() {
     return {
       pageSizes: this.$store.state.pageSizes,
+      loader: false,
       addCompanyForm: {
         name: '',
         contact_email: '',
@@ -210,6 +232,7 @@ export default {
       },
       value: '',
       input: '',
+      currentId: null,
       dialogVisible: false,
       options: [
       {
@@ -252,6 +275,27 @@ export default {
     openModal() {
       this.dialogVisible = true;
     },
+    viewCompany(item) {
+      this.$router.push({ name: 'view-organisation', params: {name: item.name, item: item}})
+    },
+    async editCompany(id) {
+      this.loader = true
+      await this.$http.get(`admin/companies/${id}`)
+      .then((res) => {
+        this.loader = false
+        this.addCompanyForm = res.data.data
+        this.dialogVisible = true
+        this.currentId = this.addCompanyForm.id
+      })
+      .catch(error => {
+        this.loader = false
+        this.$toastr.error(error.response.data.message)
+      })
+    },
+    handleClose() {
+     this.currentId = null
+     this.addCompanyForm = {}
+    },
     handleCreate() {
       this.$refs['addCompany'].validate((valid) => {
         if(valid) {
@@ -262,7 +306,22 @@ export default {
             number_of_employees: this.addCompanyForm.number_of_employees,
             address: this.addCompanyForm.address,
           }
-          this.createCompany(payload)
+          if(this.currentId !== null) {
+            this.$http.put(`admin/companies/${this.currentId}`, payload)
+              .then((res) => {
+                if(res.status === 200) {
+                  this.$toastr.success(res.data.message)
+                  this.$refs['addCompany'].resetFields()
+                  this.dialogVisible = false
+                  this.currentId = null
+                  this.getAllCompanies()
+                }
+              })
+              .catch((error) => {
+                this.$toastr.error(error.response.data.message)
+            })
+          } else {
+            this.createCompany(payload)
             .then((response) => {
               if(response.status === 200) {
                 this.$toastr.success(response.data.message)
@@ -274,6 +333,7 @@ export default {
             .catch((err) => {
               this.$toastr.error(err.response.data.message)
             })
+          }
         }
       })
     }
@@ -295,5 +355,8 @@ export default {
 .el-input.is-active .el-input__inner, .el-input__inner:focus {
   border-color: #11141A;
   outline: 0;
+}
+#organisation {
+  font-family: 'Lato', sans-serif;
 }
 </style>

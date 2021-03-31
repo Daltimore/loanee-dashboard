@@ -334,7 +334,6 @@ export default {
           this.newLoanForm = res.data.data
           this.dialogVisible = true
           this.currentID = this.newLoanForm.id
-          
         })
         .catch(error => {
           this.loader = false
