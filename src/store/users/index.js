@@ -24,7 +24,7 @@ export default {
           page: state.currentPage,
           per_page: state.perPage
         }
-        Vue.$http.get('admin/users', { params })
+        Vue.$http.get('admin/users/admin', { params })
           .then((response) => {
             commit('mutate', {
               property: 'loader',

@@ -28,8 +28,10 @@ Vue.config.productionTip = false
 Vue.filter('currencyFormat', function(number) {
   return number ? number.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0
 })
-Vue.filter('getFullDate', function(dateStr) {  
-  return moment.utc(dateStr).local().format('L')
+Vue.filter('getFullDate', function(dateStr) {
+  const date = moment(dateStr)
+  const dateComponent = date.format('YYYY-MM-DD');
+  return moment(dateComponent).format("MM/DD/YYYY");
 })
 
 new Vue({

@@ -60,6 +60,10 @@ export default {
           this.header = 'Customers'
           this.subHeader = 'Keep track of all Customers!'
           break;
+        case 'view-user':
+          this.header = 'Customers'
+          this.subHeader = 'Keep track of all Customers!'
+          break;
         case 'system-users':
           this.header = 'System Users'
           this.subHeader = 'Keep track of all System Users!'

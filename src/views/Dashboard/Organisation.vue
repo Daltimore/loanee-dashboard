@@ -276,7 +276,7 @@ export default {
       this.dialogVisible = true;
     },
     viewCompany(item) {
-      this.$router.push({ name: 'view-organisation', params: {name: item.name, item: item}})
+      this.$router.push({ name: 'view-organisation', params: {id: item.id, item: item}})
     },
     async editCompany(id) {
       this.loader = true

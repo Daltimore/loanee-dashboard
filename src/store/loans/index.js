@@ -4,7 +4,7 @@ export default {
   state: {
     loader: false,
     allLoanLevels: [],
-    allLoanees: [],
+    loanees: [],
     allLoanRequests: [],
     loaneesTotal: 0,
     allLoansTotal: 0,
@@ -100,12 +100,12 @@ export default {
               with: false
             })
             commit('mutate', {
-              property: 'allLoanees',
-              value: response.data.results
+              property: 'loanees',
+              with: response.data.data.results
             })
             commit('mutate', {
               property: 'loaneesTotal',
-              value: response.data.total
+              with: response.data.data.total
             })
             resolve(response)
           })
@@ -136,10 +136,6 @@ export default {
         }
         Vue.$http.get('/admin/loans/requests', { params })
           .then((res) => {
-            commit('mutate', {
-              property: 'loader',
-              with: false
-            })
             commit('mutate', {
               property: 'loader',
               with: false

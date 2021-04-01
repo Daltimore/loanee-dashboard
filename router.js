@@ -47,7 +47,7 @@ export const router = new Router({
           component: () => import('@/views/Dashboard/Organisation.vue')
         },
         {
-          path: 'view-organisation/:name',
+          path: 'view-organisation/:id',
           name: 'view-organisation',
           component: () => import('@/views/Dashboard/ViewOrganization.vue')
         },
@@ -72,7 +72,7 @@ export const router = new Router({
           component: () => import('@/views/Dashboard/SystemLog.vue')
         },
         {
-          path: 'view-user',
+          path: 'view-user/:id',
           name: 'view-user',
           component: () => import('@/views/Dashboard/ViewUser.vue')
         }

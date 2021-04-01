@@ -244,6 +244,7 @@ export default {
       uploadModal: false,
       currentCompany: {},
       documentFile: null,
+      currentID: null,
       nullAction: `
         // eslint-disable-next-line no-console
         console.log("this is an action")`,
@@ -324,9 +325,8 @@ export default {
     }
   },
   mounted() {
-    this.currentCompany = this.$route.params.item
-    const currentId = this.$route.params.item.id
-    this.getCompanyEmployees(currentId)
+    this.currentID = this.$route.params.id
+    this.getCompanyEmployees(this.currentID)
     this.getAllLoansLevels()
 
   },
@@ -351,6 +351,9 @@ export default {
       'employeesCurrentChange',
       'getAllLoansLevels',
     ]),
+    viewUser(id) {
+      this.$router.push({ name: 'view-user', params: {id: id} });
+    },
     pickLevel(val) {
       this.addEmployeeForm.level = val
     },
@@ -383,13 +386,13 @@ export default {
             phone: this.addEmployeeForm.phone,
             loan_level_id: this.addEmployeeForm.level
           }
-          this.$http.post(`admin/companies/${this.currentCompany.id}/employees`, payload)
+          this.$http.post(`admin/companies/${this.currentID}/employees`, payload)
             .then((response) => {
               if(response.status === 200) {
                 this.$toastr.success(response.data.message)
                 this.$refs['addEmployee'].resetFields()
                 this.dialogVisible = false
-                this.getCompanyEmployees()
+                this.getCompanyEmployees(this.currentID)
               }
             })
             .catch((err) => {

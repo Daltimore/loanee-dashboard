@@ -8,17 +8,17 @@
         class="ml-2 w-5 h-6 object-fit mb-10 cursor-pointer"
       >
     </div>
-    <div class="flex">
+    <div class="flex" v-if="userData">
       <div class="w-left bg-white shadow-md">
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="Personal Information" name="first">
-            <person-information></person-information>
+            <person-information :userData="userData"></person-information>
           </el-tab-pane>
           <el-tab-pane label="Bank Details" name="second">
-            <bank-details></bank-details>
+            <bank-details :userData="userData"></bank-details>
           </el-tab-pane>
           <el-tab-pane label="Loan History" name="third">
-            <loan-history></loan-history>
+            <loan-history :userData="userData"></loan-history>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -32,19 +32,19 @@
               class="border-t border-dash px-6 py-5 flex justify-between items-center"
             >
               <span class="text-card font-semibold">Number of Loans</span>
-              <span class="text-dashblack font-semibold">1</span>
+              <span class="text-dashblack font-semibold">0</span>
             </div>
             <div
               class="border-t border-dash px-6 py-5 flex justify-between items-center"
             >
               <span class="text-card font-semibold">Value of Loans</span>
-              <span class="text-dashblack font-semibold">5,000</span>
+              <span class="text-dashblack font-semibold">0</span>
             </div>
             <div
               class="border-t border-dash px-6 py-5 flex justify-between items-center"
             >
               <span class="text-card font-semibold">Loan Level</span>
-              <span class="text-dashblack font-semibold">Level 3</span>
+              <span class="text-dashblack font-semibold">0</span>
             </div>
             <div
               class="border-t border-b border-dash px-6 py-5 flex justify-between items-center"
@@ -73,14 +73,28 @@ export default {
   data() {
     return {
       activeName: 'first',
+      loader: false,
+      currentID: null,
+      userData: {
+        bank_accounts: []
+      }
     }
+  },
+  async mounted() {
+    this.loader = true
+    this.currentID = this.$route.params.id
+    await this.$http.get(`/admin/loanees/${this.currentID}`)
+      .then((res) => {
+        this.loader = false
+        this.userData = res.data.data
+      })
   },
   methods: {
     handleClick(tab) {
-      console.log(tab);
+      return tab
     },
     goBack() {
-      this.$router.push({ name: 'customers'})
+      this.$router.go(-1)
     }
   }
 }

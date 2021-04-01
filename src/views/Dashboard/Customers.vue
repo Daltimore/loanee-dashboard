@@ -40,28 +40,45 @@
    <div class="mt-10">
      <el-table
      style="width: 100%"
-     :data="loans.allLoanees"
+     :data="loans.loanees"
      v-loading="loans.loader"
     >
       <el-table-column
-        prop="full_name"
         label="Full Name"
-      ></el-table-column>
+      >
+        <template slot-scope="scope">
+          <span>{{ scope.row.first_name + " " + scope.row.last_name }}</span>
+        </template>
+      </el-table-column>
       <el-table-column
         prop="email"
         label="Email"
       >
       </el-table-column>
       <el-table-column
-        prop="contact_number"
+        prop="phone"
         label="Phone Number"
       ></el-table-column>
       <el-table-column
         prop="loan_level"
         label="Loan Level"
       ></el-table-column>
+      <el-table-column
+        label="Actions"
+      >
+        <template slot-scope="scope">
+          <div class="flex">
+            <span
+              class="mx-3 cursor-pointer"
+              @click="viewUser(scope.row.id)"
+            >
+              <img src="@/assets/img/eye.svg" alt="">
+            </span>
+          </div>
+        </template>
+      </el-table-column>
      </el-table>
-     <div class="mt-10" v-if="loans.allLoanees">
+     <div class="mt-10" v-if="loans.loanees.length > 0">
       <el-pagination
         background
         @size-change="loaneesHandleSizeChange"
@@ -87,7 +104,6 @@ export default {
       pageSizes: this.$store.state.pageSizes,
       value: '',
       input: '',
-      currentPage4: 1,
       options: [
         {
           value: 'enabled',
@@ -136,6 +152,9 @@ export default {
   ]),
     currencyFormat(number) {
       return number ? number.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0
+    },
+    viewUser(id) {
+      this.$router.push({ name: 'view-user', params: {id: id} });
     }
   }
 }

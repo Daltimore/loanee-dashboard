@@ -13,14 +13,14 @@
           label="Loan Amount"
         >
           <template slot-scope="scope">
-            <span> {{ currencyFormat(scope.row.loan_amount) }}</span>
+            <span> {{ scope.row.loan_amount }}</span>
           </template>
         </el-table-column>
         <el-table-column
           label="Status"
         >
           <template slot-scope="scope">
-            <span v-if="scope.row.status === 'active'">Active</span>
+            <span v-if="scope.row.is_verified === 1">Active</span>
             <span v-else>Inactive</span>
           </template>
         </el-table-column>
@@ -29,7 +29,7 @@
           label="On-Time Repayment"
         ></el-table-column>
       </el-table>
-      <div class="mt-10">
+      <!-- <div class="mt-10">
         <el-pagination
           background
           @size-change="handleSizeChange"
@@ -40,7 +40,7 @@
           layout="total, sizes, prev, pager, next, jumper"
           :total="100">
         </el-pagination>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -49,15 +49,7 @@
 export default {
   data() {
     return {
-      currentPage4: 1,
       tableData: [
-        {
-          loan_date: '11-03-2021 13:03:11',
-          loan_amount: 5000,
-          status: 'active',
-          payment_date: '08-04-2021 13:03:11',
-          ontime: 'N/A'
-        }
       ]
     }
   },

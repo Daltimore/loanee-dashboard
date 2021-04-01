@@ -12,7 +12,7 @@
               <el-input
                 v-model="bankDetailsForm.account_name"
                 class="w-input"
-                placeholder="Please Enter Default Bank Account"
+                placeholder=""
               ></el-input>
             </div>
           </el-form-item>
@@ -22,7 +22,7 @@
               <el-input
                 v-model="bankDetailsForm.account_number"
                 class="w-input"
-                placeholder="Enter Email"
+                placeholder=""
               ></el-input>
             </div>
           </el-form-item>
@@ -34,7 +34,7 @@
               <el-input
                 v-model="bankDetailsForm.alternative_account_name"
                 class="w-input"
-                placeholder="Please enter alternative account name"
+                placeholder=""
               ></el-input>
             </div>
           </el-form-item>
@@ -44,7 +44,7 @@
               <el-input
                 v-model="bankDetailsForm.alternative_account_number"
                 class="w-input"
-                placeholder="Please enter alternative Account Number"
+                placeholder=""
               ></el-input>
             </div>
           </el-form-item>
@@ -59,10 +59,10 @@ export default {
   data() {
     return {
       bankDetailsForm: {
-        account_name: 'Zenith Bank Plc',
-        account_number: '1122334455',
-        alternative_account_name: 'Guaranty Trust Bank',
-        alternative_account_number: '0011223344',
+        account_name: '',
+        account_number: '',
+        alternative_account_name: '',
+        alternative_account_number: '',
       }
     }
   }

@@ -3,16 +3,15 @@
     <div class="p-6">
       <el-form
         ref="newUser"
-        :model="newUserForm"
       >
         <div class="grid grid-cols-2 gap-6">
           <el-form-item prop="fullname">
             <div class="flex flex-col">
               <label class="font-semibold">Fullname</label>
               <el-input
-                v-model="newUserForm.fullname"
+                v-model="fullname"
                 class="w-input"
-                placeholder="Enter Full Name"
+                placeholder=""
               ></el-input>
             </div>
           </el-form-item>
@@ -20,9 +19,9 @@
             <div class="flex flex-col">
               <label class="font-semibold">Email</label>
               <el-input
-                v-model="newUserForm.email"
+                v-model="userData.email"
                 class="w-input"
-                placeholder="Enter Email"
+                placeholder=""
               ></el-input>
             </div>
           </el-form-item>
@@ -32,9 +31,9 @@
             <div class="flex flex-col">
               <label class="font-semibold">Phone Number</label>
               <el-input
-                v-model="newUserForm.phone_number"
+                v-model="userData.phone"
                 class="w-input"
-                placeholder="Enter Phone number"
+                placeholder=""
               ></el-input>
             </div>
           </el-form-item>
@@ -42,10 +41,10 @@
             <div class="flex flex-col">
               <label class="font-semibold">Date of Birth</label>
               <el-date-picker
-                v-model="newUserForm.dob"
+                v-model="userData.date_of_birth"
                 class="w-input"
-                type="datetime"
-                placeholder="Select date and time">
+                type="date"
+                placeholder="">
               </el-date-picker>
             </div>
           </el-form-item>
@@ -55,10 +54,10 @@
             <div class="flex flex-col">
               <label class="font-semibold">Address</label>
               <el-input
-                v-model="newUserForm.address"
+                v-model="userData.address"
                 type="textarea"
                 :rows="3"
-                placeholder="Enter Address"
+                placeholder=""
               ></el-input>
             </div>
           </el-form-item>
@@ -68,9 +67,9 @@
             <div class="flex flex-col">
               <label class="font-semibold">Gender</label>
               <el-input
-                v-model="newUserForm.gender"
+                v-model="userData.gender"
                 class="w-input"
-                placeholder="Please choose gender"
+                placeholder=""
               ></el-input>
             </div>
           </el-form-item>
@@ -78,9 +77,9 @@
             <div class="flex flex-col">
               <label class="font-semibold">BVN</label>
               <el-input
-                v-model="newUserForm.bvn"
+                v-model="userData.bvn"
                 class="w-input"
-                placeholder="Please enter BVN"
+                placeholder=""
               ></el-input>
             </div>
           </el-form-item>
@@ -90,9 +89,9 @@
             <div class="flex flex-col">
               <label class="font-semibold">Occupation</label>
               <el-input
-                v-model="newUserForm.occupation"
+                v-model="userData.occupation"
                 class="w-input"
-                placeholder="Please enter Occupation"
+                placeholder=""
               ></el-input>
             </div>
           </el-form-item>
@@ -100,9 +99,9 @@
             <div class="flex flex-col">
               <label class="font-semibold">Work Address</label>
               <el-input
-                v-model="newUserForm.work_address"
+                v-model="userData.work_address"
                 class="w-input"
-                placeholder="Please enter Work Address"
+                placeholder=""
               ></el-input>
             </div>
           </el-form-item>
@@ -114,20 +113,17 @@
 
 <script>
 export default {
+  props: {
+    userData: Object,
+  },
+  computed: {
+    fullname() {
+      return this.userData.first_name + " " + this.userData.last_name;
+    }
+  },
   data() {
     return {
-      newUserForm: {
-        fullname: 'Ayomide Thomas',
-        email: 'ayomide@thomas.com',
-        phone_number: '08012345678',
-        dob: '',
-        address: '152B, Karimu Kotun Crescent, Victoria Island, Lagos',
-        gender: 'male',
-        bvn: '12345678901',
-        occupation: 'Banker',
-        work_address: 'FCMB, Head Office'
-
-      }
+      
     }
   }
 }

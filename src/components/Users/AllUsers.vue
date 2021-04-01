@@ -75,7 +75,7 @@
           <template slot-scope="scope">
             <span
               class="text-tablegreen"
-              v-if="scope.row.status === 'enabled'"
+              v-if="scope.row.is_active === 1"
             >
               Enabled
             </span>
