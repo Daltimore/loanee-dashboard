@@ -54,7 +54,7 @@
             <div class="flex flex-col">
               <label class="font-semibold">Address</label>
               <el-input
-                v-model="userData.address"
+                v-model="userData.home_address"
                 type="textarea"
                 :rows="3"
                 placeholder=""

@@ -81,6 +81,20 @@
         label="Loan Level"
       >
       </el-table-column>
+      <el-table-column
+        label="Actions"
+      >
+        <template slot-scope="scope">
+          <div class="flex">
+            <span
+              class="mx-3 cursor-pointer"
+              @click="viewUser(scope.row.id)"
+            >
+              <img src="@/assets/img/eye.svg" alt="">
+            </span>
+          </div>
+        </template>
+      </el-table-column>
      </el-table>
      <div class="mt-10">
       <el-pagination
@@ -352,7 +366,7 @@ export default {
       'getAllLoansLevels',
     ]),
     viewUser(id) {
-      this.$router.push({ name: 'view-user', params: {id: id} });
+      this.$router.push({ name: 'view-user', params: {id: id, companyId: this.currentID} });
     },
     pickLevel(val) {
       this.addEmployeeForm.level = val

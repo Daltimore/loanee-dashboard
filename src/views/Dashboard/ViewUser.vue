@@ -44,7 +44,7 @@
               class="border-t border-dash px-6 py-5 flex justify-between items-center"
             >
               <span class="text-card font-semibold">Loan Level</span>
-              <span class="text-dashblack font-semibold">0</span>
+              <span class="text-dashblack font-semibold">{{ userData.loan_level }}</span>
             </div>
             <div
               class="border-t border-b border-dash px-6 py-5 flex justify-between items-center"
@@ -75,19 +75,46 @@ export default {
       activeName: 'first',
       loader: false,
       currentID: null,
+      companyID: null,
+      currentRoute: null,
       userData: {
         bank_accounts: []
       }
     }
   },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      vm.currentRoute = from
+    })
+  },
   async mounted() {
-    this.loader = true
+    this.companyID = this.$route.params.companyId
     this.currentID = this.$route.params.id
-    await this.$http.get(`/admin/loanees/${this.currentID}`)
-      .then((res) => {
+    if(this.currentRoute.name === 'view-organisation') {
+      this.loader = true
+      await this.$http.get(`/admin/companies/${this.companyID}/employees/${this.currentID}`)
+        .then((res) => {
+          this.loader = false
+          this.userData = res.data.data
+        })
+        .catch((err) => {
+          this.loader = false
+          this.$toastr.error(err.response.data.message)
+        })
+    } else {
+      this.loader = true
+      this.currentID = this.$route.params.id
+      await this.$http.get(`/admin/loanees/${this.currentID}`)
+        .then((res) => {
+          this.loader = false
+          this.userData = res.data.data
+        }
+      )
+      .catch((err) => {
         this.loader = false
-        this.userData = res.data.data
+        this.$toastr.error(err.response.data.message)
       })
+    }
   },
   methods: {
     handleClick(tab) {
