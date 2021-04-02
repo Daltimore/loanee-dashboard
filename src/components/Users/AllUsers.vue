@@ -68,7 +68,7 @@
           label="Date Added"
         >
           <template slot-scope="scope">
-            <span>{{ scope.row.date_created | getFullDate }}</span>
+            <span>{{ scope.row.created_at | formatDate }}</span>
           </template>
         </el-table-column>
         <el-table-column label="Status">

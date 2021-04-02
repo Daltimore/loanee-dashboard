@@ -55,13 +55,16 @@
         label="Amount (N)"
       >
         <template slot-scope="scope">
-          <span> {{ currencyFormat(scope.row.amount)}}</span>
+          <span> {{ currencyFormat(scope.row.amount_requested)}}</span>
         </template>
       </el-table-column>
       <el-table-column
-        prop="interest_percentage_rate"
         label="Interest Rate"
-      ></el-table-column>
+      >
+        <template slot-scope="scope">
+          <span>{{ scope.row.interest_rate }} %</span>
+        </template>
+      </el-table-column>
       <el-table-column label="Duration">
         <template slot-scope="scope">
           <span>{{ scope.row.duration }} months</span>
@@ -69,7 +72,7 @@
       </el-table-column>
       <el-table-column label="Date Created">
         <template slot-scope="scope">
-          <span>{{ scope.row.date_created | getFullDate}}</span>
+          <span>{{ scope.row.created_at | formatDate }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -86,7 +89,7 @@
         </template>
       </el-table-column>
      </el-table>
-     <div class="mt-10" v-if="loans.allLoanees">
+     <div class="mt-10" v-if="loans.allLoanRequests.length > 0">
       <el-pagination
         background
         @size-change="loanRequestHandleSizeChange"
