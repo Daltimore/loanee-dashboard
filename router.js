@@ -75,6 +75,11 @@ export const router = new Router({
           path: 'view-user/:id',
           name: 'view-user',
           component: () => import('@/views/Dashboard/ViewUser.vue')
+        },
+        {
+          path: 'view-loanee/:id',
+          name: 'view-loanee',
+          component: () => import('@/views/Dashboard/ViewLoanee.vue')
         }
       ]
     }

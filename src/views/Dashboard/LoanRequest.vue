@@ -48,14 +48,14 @@
         label="Loan Level"
       ></el-table-column>
       <el-table-column
-        prop="customer"
+        prop="loanee_name"
         label="Customer"
       ></el-table-column>
       <el-table-column
         label="Amount (N)"
       >
         <template slot-scope="scope">
-          <span> {{ currencyFormat(scope.row.amount_requested)}}</span>
+          <span> {{ scope.row.amount_requested | currencyFormat }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -67,7 +67,10 @@
       </el-table-column>
       <el-table-column label="Duration">
         <template slot-scope="scope">
-          <span>{{ scope.row.duration }} months</span>
+          <span>{{ scope.row.duration > 1 ? 
+            scope.row.duration + ' ' + 'months' : 
+            scope.row.duration + ' ' + 'month' }}
+          </span>
         </template>
       </el-table-column>
       <el-table-column label="Date Created">
@@ -86,6 +89,20 @@
             Enabled
           </span>
           <span v-else class="text-red-600">Disabled</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="Actions"
+      >
+        <template slot-scope="scope">
+          <div class="flex">
+            <span
+              class="mx-3 cursor-pointer"
+              @click="viewLoanee(scope.row.id)"
+            >
+              <img src="@/assets/img/eye.svg" alt="">
+            </span>
+          </div>
         </template>
       </el-table-column>
      </el-table>
@@ -161,8 +178,8 @@ export default {
     'loanRequestHandleSizeChange',
     'loanRequestHandleCurrentChange'
   ]),
-    currencyFormat(number) {
-      return number ? number.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0
+    viewLoanee(id) {
+      this.$router.push({ name: 'view-loanee', params: { id: id }})
     }
   }
 }

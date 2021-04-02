@@ -52,6 +52,10 @@ export default {
           this.header = 'Loans Request'
           this.subHeader = 'Have a view of all Loan requests'
           break;
+        case 'view-loanee':
+          this.header = 'Loans Request'
+          this.subHeader = 'Have a view of all Loan requests'
+          break;
         case 'organisation':
           this.header = 'Organisation'
           this.subHeader = 'Manage all pre-approved organizations'
