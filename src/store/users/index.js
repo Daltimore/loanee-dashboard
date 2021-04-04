@@ -5,8 +5,9 @@ export default {
     loader: false,
     allUsers: [],
     usersTotal: 0,
-    currentPage: 1,
-    perPage: 10
+    userCurrentPage: 1,
+    perPage: 10,
+    searchQuery: ''
   },
   mutations: {
     mutate(state, payload) {
@@ -21,8 +22,9 @@ export default {
       })
       return new Promise((resolve, reject) => {
         const params = {
-          page: state.currentPage,
-          per_page: state.perPage
+          page: state.userCurrentPage,
+          per_page: state.perPage,
+          ...(state.searchQuery && { search_query: state.searchQuery })
         }
         Vue.$http.get('admin/users/admin', { params })
           .then((response) => {
@@ -56,14 +58,14 @@ export default {
         with: perPage
       })
       commit('mutate', {
-        property: 'currentPage',
+        property: 'userCurrentPage',
         with: 1
       })
       dispatch('getAllUsers')
     },
     handleCurrentChange({ commit, dispatch }, page) {
       commit('mutate', {
-        property: 'currentPage',
+        property: 'userCurrentPage',
         with: page
       })
       dispatch('getAllUsers')

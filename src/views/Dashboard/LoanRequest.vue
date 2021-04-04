@@ -13,11 +13,12 @@
           class="text-card text-md font-semibold pr-2"
         >Filter by</p>
         <el-select
-          v-model="value"
+          v-model="approvalStatus"
           placeholder="Select filter option"
+          @change="filterEvent"
         >
           <el-option
-            v-for="item in options"
+            v-for="item in approvalStat"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -132,14 +133,14 @@ export default {
       pageSizes: this.$store.state.pageSizes,
       value: '',
       input: '',
-      options: [
+      approvalStat: [
         {
-          value: 'enabled',
-          label: 'Enabled'
+          value: 'approved',
+          label: 'Approved'
         },
         {
-          value: 'disabled',
-          label: 'Disabled'
+          value: 'reject',
+          label: 'Rejected'
         }
       ],
     }
@@ -170,6 +171,39 @@ export default {
           with: value
         })
       }
+    },
+    approvalStatus: {
+      get() {
+        return this.loans.approval_status
+      },
+      set(value) {
+        return this.$store.commit('mutate', {
+          property: 'approval_status',
+          with: value
+        })
+      }
+    },
+    paymentStatus: {
+      get() {
+        return this.loans.payment_status
+      },
+      set(value) {
+        return this.$store.commit('mutate', {
+          property: 'payment_status',
+          with: value
+        })
+      }
+    },
+    repaymentPlan: {
+      get() {
+        return this.loans.repayment_plan
+      },
+      set(value) {
+        return this.$store.commit('mutate', {
+          property: 'repayment_plan',
+          with: value
+        })
+      }
     }
   },
   methods: {
@@ -180,7 +214,14 @@ export default {
   ]),
     viewLoanee(id) {
       this.$router.push({ name: 'view-loanee', params: { id: id }})
-    }
+    },
+    filterEvent() {
+      this.$store.commit('mutate', {
+        property: 'loanRequestCurrentPage',
+        with: 1
+      })
+      this.getAllLoanRequests()
+    },
   }
 }
 </script>

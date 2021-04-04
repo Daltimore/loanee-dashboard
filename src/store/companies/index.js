@@ -86,6 +86,7 @@ export default {
         const params = {
           page: state.employeesCurrentPage,
           per_page: state.perPage,
+          ...(state.searchQuery && { search_query: state.searchQuery })
         }
         Vue.$http.get(`admin/companies/${id}/employees`, { params })
           .then((res) => {

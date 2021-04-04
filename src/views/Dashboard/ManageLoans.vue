@@ -57,7 +57,7 @@
         label="Amount (N)"
       >
         <template slot-scope="scope">
-          <span> {{ scope.row.amount | currencyFormat}}</span>
+          <span> {{ scope.row.amount | currencyFormat }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -71,7 +71,7 @@
       </el-table-column>
       <el-table-column label="Date Created">
         <template slot-scope="scope">
-          <span>{{ scope.row.created_at | formatDate}}</span>
+          <span>{{ scope.row.created_at | formatDate }}</span>
         </template>
       </el-table-column>
       <el-table-column

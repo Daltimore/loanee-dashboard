@@ -12,7 +12,7 @@
         <p
           class="text-card text-md font-semibold pr-2"
         >Filter by</p>
-        <el-select
+        <!-- <el-select
           v-model="value"
           placeholder="Select filter option"
         >
@@ -22,12 +22,13 @@
             :label="item.label"
             :value="item.value">
           </el-option>
-        </el-select>
+        </el-select> -->
       </div>
       <div class="mr-4">
         <el-input
           placeholder="Search"
-          v-model="input"
+          v-model="searchQuery"
+          @input="search"
         ></el-input>
       </div>
       <img
@@ -239,8 +240,10 @@
       <span class="ml-5" v-if="!documentFile"> No File Choosen </span>
       <span class="ml-5" v-else> {{ documentFile.name }} </span>
     </div>
-    <button class="mt-10 rounded text-white font-semibold bg-dashblack px-6 py-3 mt-4 w-32 focus:outline-none">
-      Submit
+    <button
+      @click.prevent="handleUpload"
+      class="mt-10 rounded text-white font-semibold bg-dashblack px-6 py-3 mt-4 w-32 focus:outline-none">
+      {{ loader ? 'Uploading...' : 'Submit'}}
     </button>
    </el-dialog>
   </div>
@@ -248,6 +251,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
+import debounce from 'lodash.debounce'
 
 export default {
   data() {
@@ -326,16 +330,7 @@ export default {
       value: '',
       input: '',
       currentId: null,
-      dialogVisible: false,
-      options: [
-      {
-        value: 'Option1',
-        label: 'Option1'
-      },
-      {
-        value: 'Option2',
-        label: 'Option2'
-      }]
+      dialogVisible: false
     }
   },
   mounted() {
@@ -356,6 +351,17 @@ export default {
           with: value
         })
       }
+    },
+    searchQuery: {
+      get() {
+        return this.company.searchQuery
+      },
+      set(value) {
+        return this.$store.commit('mutate', {
+          property: 'searchQuery',
+          with: value
+        })
+      }
     }
   },
   methods: {
@@ -365,6 +371,9 @@ export default {
       'employeesCurrentChange',
       'getAllLoansLevels',
     ]),
+    search: debounce(function() {
+      this.getCompanyEmployees(this.currentID)
+    }, 500),
     viewUser(id) {
       this.$router.push({ name: 'view-user', params: {id: id, companyId: this.currentID} });
     },
@@ -386,6 +395,24 @@ export default {
     handleClose() {
      this.currentId = null
      this.addCompanyForm = {}
+    },
+    async handleUpload() {
+      this.loader = true
+      const data = new FormData()
+      data.append("employeesFile", this.documentFile.raw)
+      await this.$http.post(`/admin/companies/${this.currentID}/employees/upload`, data)
+        .then((res) => {
+          if(res.status === 200) {
+            this.loader = false
+            this.$toastr.success(res.data.message)
+            this.documentFile = null
+            this.uploadModal = false
+            this.getCompanyEmployees(this.currentID)
+          }
+        })
+        .catch((err) => {
+          this.$toastr.error(err.response.data.message)
+        })
     },
     handleCreate() {
       this.$refs['addEmployee'].validate((valid) => {

@@ -12,7 +12,7 @@
         <p
           class="text-card text-md font-semibold pr-2"
         >Filter by</p>
-        <el-select
+        <!-- <el-select
           v-model="value"
           placeholder="Select filter option"
         >
@@ -22,12 +22,13 @@
             :label="item.label"
             :value="item.value">
           </el-option>
-        </el-select>
+        </el-select> -->
       </div>
       <div class="mr-4">
         <el-input
           placeholder="Search"
-          v-model="input"
+          v-model="searchQuery"
+          @input="search"
         ></el-input>
       </div>
       <img
@@ -185,6 +186,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
+import debounce from 'lodash.debounce'
 
 export default {
   data() {
@@ -233,16 +235,7 @@ export default {
       value: '',
       input: '',
       currentId: null,
-      dialogVisible: false,
-      options: [
-      {
-        value: 'Option1',
-        label: 'Option1'
-      },
-      {
-        value: 'Option2',
-        label: 'Option2'
-      }]
+      dialogVisible: false
     }
   },
   async mounted() {
@@ -260,6 +253,17 @@ export default {
           with: value
         })
       }
+    },
+    searchQuery: {
+      get() {
+        return this.company.searchQuery
+      },
+      set(value) {
+        return this.$store.commit('mutate', {
+          property: 'searchQuery',
+          with: value
+        })
+      }
     }
   },
   methods: {
@@ -269,6 +273,9 @@ export default {
       'handleCurrentChange',
       'createCompany'
     ]),
+    search: debounce(function() {
+      this.getAllCompanies()
+    }, 500),
     currencyFormat(number) {
       return number ? number.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0
     },

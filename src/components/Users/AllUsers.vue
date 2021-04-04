@@ -5,7 +5,7 @@
         <p
           class="text-card text-md font-semibold pr-2"
         >Filter by</p>
-        <el-select
+        <!-- <el-select
           v-model="value"
           placeholder="Select filter option"
         >
@@ -15,12 +15,13 @@
             :label="item.label"
             :value="item.value">
           </el-option>
-        </el-select>
+        </el-select> -->
       </div>
       <div class="mr-4">
         <el-input
           placeholder="Search"
-          v-model="input"
+          v-model="searchQuery"
+          @input="search"
         ></el-input>
       </div>
       <img
@@ -184,7 +185,8 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
+import debounce from 'lodash.debounce'
 
 export default {
   props: {
@@ -232,17 +234,32 @@ export default {
     ...mapState(['user']),
     currentPage: {
       get() {
-        return this.$store.state.loans.currentPage
+        return this.user.userCurrentPage
       },
       set(value) {
         return this.$store.commit('mutate', {
-          property: 'currentPage',
+          property: 'userCurrentPage',
+          with: value
+        })
+      }
+    },
+    searchQuery: {
+      get() {
+        return this.user.searchQuery
+      },
+      set(value) {
+        return this.$store.commit('mutate', {
+          property: 'searchQuery',
           with: value
         })
       }
     }
   },
   methods: {
+    ...mapActions(['getAllUsers']),
+    search: debounce(function() {
+      this.getAllUsers()
+    }, 500),
     handleSizeChange() {
       this.$store.dispatch('handleSizeChange')
     },

@@ -132,9 +132,9 @@ export default {
         const params = {
           page: state.loanRequestCurrentPage,
           per_page: state.perPage,
-          ...(Object.keys(filterBy).length > 0 && { filter_by: JSON.stringify(filterBy)}),
+          ...(Object.keys(filterBy).length > 0 && { filter_by: JSON.stringify(filterBy) }),
         }
-        Vue.$http.get('/admin/loans/requests', { params })
+        Vue.$http.get('/admin/loans/requests', {  params: params })
           .then((res) => {
             commit('mutate', {
               property: 'loader',
