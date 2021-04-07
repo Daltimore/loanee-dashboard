@@ -7,7 +7,8 @@ export default {
     usersTotal: 0,
     userCurrentPage: 1,
     perPage: 10,
-    searchQuery: ''
+    searchQuery: '',
+    allSystemUsers: [],
   },
   mutations: {
     mutate(state, payload) {
@@ -51,6 +52,34 @@ export default {
           })
         }
       )
+    },
+    getAllRoles({ commit }) {
+      commit('mutate', {
+        property: 'loader',
+        with: true
+      })
+      return new Promise((resolve, reject) => {
+        Vue.$http.get('admin/users/roles')
+          .then((res) => {
+            commit('mutate', {
+              property: 'loader',
+              with: false
+            })
+            commit('mutate', {
+              property: 'allSystemUsers',
+              with: res.data.data
+            })
+            resolve(res)
+          })
+          .catch((err) => {
+            commit('mutate', {
+              property: 'loader',
+              with: false
+            })
+            reject(err)
+          }
+        )
+      })
     },
     handleSizeChange({ commit, dispatch }, perPage) {
       commit('mutate', {

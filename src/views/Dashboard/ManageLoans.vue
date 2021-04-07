@@ -12,7 +12,7 @@
         <p
           class="text-card text-md font-semibold pr-2"
         >Filter by</p>
-        <el-select
+        <!-- <el-select
           v-model="value"
           placeholder="Select filter option"
         >
@@ -22,12 +22,13 @@
             :label="item.label"
             :value="item.value">
           </el-option>
-        </el-select>
+        </el-select> -->
       </div>
       <div class="mr-4">
         <el-input
           placeholder="Search"
-          v-model="input"
+          v-model="levelSearchQuery"
+          @input="search"
         ></el-input>
       </div>
       <img
@@ -232,6 +233,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
+import debounce from 'lodash.debounce'
 
 export default {
   data() {
@@ -311,7 +313,18 @@ export default {
           with: value
         })
       }
-    }
+    },
+    levelSearchQuery: {
+      get() {
+        return this.loans.searchQuery
+      },
+      set(value) {
+        return this.$store.commit('mutate', {
+          property: 'searchQuery',
+          with: value
+        })
+      }
+    },
   },
   methods: {
     ...mapActions([
@@ -323,6 +336,9 @@ export default {
     openModal() {
       this.dialogVisible = true;
     },
+    search: debounce(function() {
+      this.getAllLoansLevels()
+    }, 500),
     pickStatus(val) {
       this.newLoanForm.status = val
     },

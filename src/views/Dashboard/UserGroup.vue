@@ -15,44 +15,25 @@
       >
     </div>
     <div class="mt-10">
-      <el-table :data="tableData" style="width: 100%">
+      <el-table :data="user.allSystemUsers" style="width: 100%">
         <el-table-column
-          prop="sn"
+          prop="id"
           label="S/N"
         ></el-table-column>
         <el-table-column
-          prop="name"
-          label="User Group Name"
-        ></el-table-column>
-        <el-table-column label="Status">
+          label="Role Name"
+        >
           <template slot-scope="scope">
-            <span
-              class="text-tablegreen"
-              v-if="scope.row.status === 'enabled'"
-            >
-              Enabled
+            <span v-if="scope.row.name === 'super_admin'">
+              Super Admin
             </span>
-            <span
-              class="text-red-600"
-              v-else
-            >
-              Disabled
+            <span v-else-if="scope.row.name === 'admin'">
+              Admin
             </span>
+            <span v-else>Loanee</span>
           </template>
         </el-table-column>
       </el-table>
-      <div class="mt-10">
-        <el-pagination
-          background
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page.sync="currentPage4"
-          :page-sizes="[10, 20, 30, 40]"
-          :page-size="10"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="100">
-        </el-pagination>
-      </div>
     </div>
     <el-dialog
       :visible.sync="dialogVisible"
@@ -163,7 +144,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 
 export default {
   data() {
@@ -216,10 +197,13 @@ export default {
     }
   },
   mounted() {
-    this.getAllUsers()
+    this.getAllRoles()
+  },
+  computed: {
+    ...mapState(['user'])
   },
   methods: {
-    ...mapActions(['getAllUsers']),
+    ...mapActions(['getAllRoles']),
     handleSizeChange(val) {
       console.log(`${val} items per page`);
     },

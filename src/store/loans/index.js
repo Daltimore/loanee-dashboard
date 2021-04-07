@@ -32,7 +32,8 @@ export default {
       return new Promise((resolve, reject) => {
         const params = {
           page: state.currentPage,
-          per_page: state.perPage
+          per_page: state.perPage,
+          ...(state.searchQuery && { search_query: state.searchQuery })
         }
         Vue.$http.get('admin/loans/settings/loan-levels', { params })
           .then((response) => {
