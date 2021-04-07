@@ -15,7 +15,11 @@
       >
     </div>
     <div class="mt-10">
-      <el-table :data="user.allSystemUsers" style="width: 100%">
+      <el-table
+        :data="user.allSystemUsers"
+        style="width: 100%"
+        v-loading="user.loader"
+      >
         <el-table-column
           prop="id"
           label="S/N"
