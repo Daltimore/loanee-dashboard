@@ -1,9 +1,9 @@
 <template>
   <div
-    class="min-h-screen h-full grid grid-cols-2"
+    class="min-h-screen h-full w-full md:grid grid-cols-2"
     id="login_container"
   >
-    <div>
+    <div class="hidden md:block">
       <img
         src="@/assets/img/login.png"
         alt=""
@@ -11,7 +11,7 @@
       >
     </div>
     <div class="flex justify-center flex-col">
-      <h3 class="font-bold text-4xl text-center">
+      <h3 class="font-bold text-4xl text-center mt-16 md:mt-0">
         The Loan
       </h3>
       <p
@@ -24,7 +24,7 @@
           ref="form"
           :model="forgotPasswordForm"
           label-width="120px"
-          class="px-32 mx-auto"
+          class="px-12 md:px-32 mx-auto"
         >
           <el-form-item prop="email">
             <el-input
@@ -32,7 +32,7 @@
               placeholder="Email"
             ></el-input>
           </el-form-item>
-          <div class="mt-10 flex justify-between items-center">
+          <div class="mt-20 md:mt-10 flex justify-between items-center">
             <button
               @click.prevent="handleSubmit"
               class="bg-dashblack rounded

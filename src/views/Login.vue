@@ -1,9 +1,9 @@
 <template>
   <div
-    class="min-h-screen h-full grid grid-cols-2"
+    class="min-h-screen h-full w-full md:grid grid-cols-2"
     id="login_container"
   >
-    <div>
+    <div class="hidden md:block">
       <img
         src="@/assets/img/login.png"
         alt=""
@@ -11,11 +11,11 @@
       >
     </div>
     <div class="flex justify-center flex-col">
-      <h3 class="font-bold text-4xl text-center">
+      <h3 class="font-bold text-4xl text-center mt-16 md:mt-0">
         The Loan
       </h3>
       <p
-        class="text-sub my-9 text-md text-center"
+        class="text-sub my-9 text-md text-center w-full"
       >
         Welcome back! Please login to your account.
       </p>
@@ -25,7 +25,7 @@
           :model="loginForm"
           :rules="rules"
           label-width="120px"
-          class="px-32 mx-auto"
+          class="px-12 md:px-32 mx-auto"
         >
           <el-form-item prop="username">
             <el-input
@@ -55,7 +55,7 @@
           <button
             @click.prevent="handleLogin"
             class="bg-dashblack rounded mt-16
-            w-36 h-11 text-center account text-white focus:outline-none"
+            w-full md:w-36 h-11 text-center account text-white focus:outline-none"
           >
             {{ user.loader === true ? 'Hang On...' : 'Login' }}
           </button>
