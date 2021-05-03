@@ -1,8 +1,8 @@
 <template>
-  <div class="flex justify-between mx-auto relative">
+  <div class="flex justify-between mx-auto relative flex-col md:flex-row">
     <div class="w-left">
       <h5 class="font-semibold text-dashblack py-4">Quick Stats</h5>
-      <div class="grid grid-cols-3 gap-11">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap:4 md:gap-6 lg:gap-11">
         <small-card-carousel
           title1="New Customers this month"
           content1="24"
@@ -92,7 +92,7 @@
         </div>
       </div>
     </div>
-    <div class="w-right bg-white h-screen p-6">
+    <div class="w-right bg-white h-screen overflow-hidden overflow-y-scroll p-6">
       <div class="flex justify-between items-center">
         <p class="font-bold">Recent Activity</p>
           <div class="flex items-center cursor-pointer">

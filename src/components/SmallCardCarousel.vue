@@ -1,7 +1,7 @@
 <template>
   <div id="small_card">
     <carousel :perPage="perPage">
-      <slide class="py-3 pl-10">
+      <slide class="py-3 pl-2">
         <div>
           <h3
             class="text-card text-base font-semibold font-f"
@@ -13,7 +13,7 @@
           </h5>
         </div>
       </slide>
-      <slide class="py-3 pl-10">
+      <slide class="py-3 pl-2">
         <div>
           <h3 class="text-card text-base font-semibold font-f">
             {{ title2 }}
@@ -23,7 +23,7 @@
           </h5>
         </div>
       </slide>
-      <slide class="py-3 pl-10">
+      <slide class="py-3 pl-2">
         <div>
           <h3 class="text-card text-base font-semibold font-f">
             {{ title3 }}
@@ -64,7 +64,7 @@ export default {
 
 <style>
 #small_card .VueCarousel {
-  width: 275px ;
+  width: 245px ;
   height: auto;
   background: #ffffff;
   box-shadow: 0px 3px 6px #00000029;
@@ -81,5 +81,14 @@ export default {
 
 #small_card .VueCarousel-dot--active {
   outline: none !important;
+}
+@media (max-width: 1280px) {
+  #small_card .VueCarousel {
+    width: auto ;
+    height: 10rem;
+    background: #ffffff;
+    box-shadow: 0px 3px 6px #00000029;
+    border-radius: 12px;
+  }
 }
 </style>
