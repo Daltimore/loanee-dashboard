@@ -10,7 +10,7 @@
               <label class="font-semibold">Fullname</label>
               <el-input
                 v-model="fullname"
-                class="w-input"
+                class=""
                 placeholder=""
               ></el-input>
             </div>
@@ -20,7 +20,7 @@
               <label class="font-semibold">Email</label>
               <el-input
                 v-model="userData.email"
-                class="w-input"
+                class=""
                 placeholder=""
               ></el-input>
             </div>
@@ -32,7 +32,7 @@
               <label class="font-semibold">Phone Number</label>
               <el-input
                 v-model="userData.phone"
-                class="w-input"
+                class=""
                 placeholder=""
               ></el-input>
             </div>
@@ -42,7 +42,7 @@
               <label class="font-semibold">Date of Birth</label>
               <el-date-picker
                 v-model="userData.date_of_birth"
-                class="w-input"
+                class=""
                 type="date"
                 placeholder="">
               </el-date-picker>
@@ -68,7 +68,7 @@
               <label class="font-semibold">Gender</label>
               <el-input
                 v-model="userData.gender"
-                class="w-input"
+                class=""
                 placeholder=""
               ></el-input>
             </div>
@@ -78,7 +78,7 @@
               <label class="font-semibold">BVN</label>
               <el-input
                 v-model="userData.bvn"
-                class="w-input"
+                class=""
                 placeholder=""
               ></el-input>
             </div>
@@ -90,7 +90,7 @@
               <label class="font-semibold">Occupation</label>
               <el-input
                 v-model="userData.occupation"
-                class="w-input"
+                class=""
                 placeholder=""
               ></el-input>
             </div>
@@ -100,7 +100,7 @@
               <label class="font-semibold">Work Address</label>
               <el-input
                 v-model="userData.work_address"
-                class="w-input"
+                class=""
                 placeholder=""
               ></el-input>
             </div>
@@ -130,9 +130,9 @@ export default {
 </script>
 
 <style>
-.w-input {
+/* . {
   width: 24rem;
-}
+} */
 .el-input.is-active .el-input__inner, .el-input__inner:focus {
   border-color: #11141A;
   outline: 0;

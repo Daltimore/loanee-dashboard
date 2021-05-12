@@ -10,7 +10,7 @@
     </div>
     <div class="flex">
       <div class="w-left bg-white shadow-md">
-        <div>
+        <div class="w-auto">
           <div class="p-6">
             <el-form
               ref="newUser"
@@ -21,7 +21,7 @@
                     <label class="font-semibold">Duration</label>
                     <el-input
                       v-model="duration"
-                      class="w-input"
+                      class=""
                       placeholder=""
                     ></el-input>
                   </div>
@@ -31,7 +31,7 @@
                     <label class="font-semibold">Interest (Amount)</label>
                     <el-input
                       v-model="userData.interest"
-                      class="w-input"
+                      class=""
                       placeholder=""
                     ></el-input>
                   </div>
@@ -43,7 +43,7 @@
                     <label class="font-semibold">Interest Type</label>
                     <el-input
                       v-model="userData.interest_type"
-                      class="w-input"
+                      class=""
                       placeholder=""
                     ></el-input>
                   </div>
@@ -53,7 +53,7 @@
                     <label class="font-semibold">Loan Level</label>
                     <el-input
                       v-model="userData.level"
-                      class="w-input"
+                      class=""
                       placeholder="">
                     </el-input>
                   </div>
@@ -65,7 +65,7 @@
                     <label class="font-semibold">Payment Status</label>
                     <el-input
                       v-model="userData.payment_status"
-                      class="w-input"
+                      class=""
                       placeholder=""
                     ></el-input>
                   </div>
@@ -75,7 +75,7 @@
                     <label class="font-semibold">Repayment Plan</label>
                     <el-input
                       v-model="userData.repayment_plan"
-                      class="w-input"
+                      class=""
                       placeholder=""
                     ></el-input>
                   </div>

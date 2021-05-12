@@ -1,7 +1,7 @@
 <template>
   <div id="big-card">
     <carousel :perPage="perPage">
-      <slide class="px-3 md:px-3 lg:px-8">
+      <slide class="px-3 md:px-3 lg:px-6">
         <div class="flex justify-between items-center py-5">
           <h6 class="uppercase font-semibold">loan requests</h6>
           <p class="text-card">Today Thur, 11 Mar</p>
