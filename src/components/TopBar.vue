@@ -11,7 +11,7 @@
     </div>
     <div class="flex justify-between items-center">
       <button
-        class="bg-dashblack rounded
+        class="bg-navgreen rounded
         w-36 h-11 text-center account text-white focus:outline-none"
       >
         Account Settings

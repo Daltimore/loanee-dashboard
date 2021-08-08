@@ -2,7 +2,7 @@
   <div class="flex justify-between mx-auto relative flex-col md:flex-row">
     <div class="w-left">
       <h5 class="font-semibold text-dashblack py-4">Quick Stats</h5>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap:4 md:gap-6 lg:gap-11">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap:4 md:gap-6 lg:gap-6">
         <small-card-carousel
           title1="New Customers this month"
           content1="24"
@@ -32,7 +32,7 @@
 
         ></small-card-carousel>
       </div>
-      <div class="grid grid-cols-2 gap-12 mt-11">
+      <div class="grid grid-cols-2 gap-6 mt-11">
         <big-card-carousel></big-card-carousel>
         <big-card-carousel></big-card-carousel>
       </div>

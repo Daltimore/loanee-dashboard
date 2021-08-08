@@ -1,5 +1,5 @@
 <template>
-  <div id="big-card">
+  <div class="bg-white rounded lg:rounded-lg xl:rounded-xl shadow-md">
     <carousel :perPage="perPage">
       <slide class="px-3 md:px-3 lg:px-6">
         <div class="flex justify-between items-center py-5">
@@ -103,36 +103,5 @@ export default {
 #big-card {
   font-family: 'Lato', sans-serif;
   position: relative;
-}
-#big-card .VueCarousel {
-  width: 415px ;
-  height: auto;
-  background: #ffffff;
-  box-shadow: 0px 3px 6px #00000029;
-  border-radius: 12px;
-}
-
-#big-card .VueCarousel-pagination {
-  text-align: right;
-  width: 22%;
-  margin-left: auto;
-}
-
-#big-card .VueCarousel-dot-container {
-  margin: 0 !important;
-}
-
-#big-card .VueCarousel-dot--active {
-  outline: none !important;
-}
-
-@media (max-width: 1280px) {
-  #big-card .VueCarousel {
-  width: auto ;
-  height: auto;
-  background: #ffffff;
-  box-shadow: 0px 3px 6px #00000029;
-  border-radius: 12px;
-}
 }
 </style>
