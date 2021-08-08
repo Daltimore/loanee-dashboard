@@ -1,5 +1,5 @@
 <template>
-  <div id="small_card">
+  <div class="bg-white rounded lg:rounded-lg xl:rounded-xl shadow-md">
     <carousel :perPage="perPage">
       <slide class="py-3 pl-2">
         <div>
