@@ -24,10 +24,6 @@
             <span v-else>Inactive</span>
           </template>
         </el-table-column>
-        <el-table-column
-          prop="ontime"
-          label="On-Time Repayment"
-        ></el-table-column>
       </el-table>
       <!-- <div class="mt-10">
         <el-pagination

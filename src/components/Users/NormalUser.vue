@@ -60,7 +60,10 @@
             <span v-if="scope.row.role === 'super_admin'">
               Super Admin
             </span>
-            <span v-else>Loanee</span>
+            <span v-if="scope.row.role === 'admin'">
+              Admin
+            </span>
+            <span v-else>Maonee</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -87,7 +90,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <div class="mt-10">
+      <!-- <div class="mt-10">
         <el-pagination
           background
           @size-change="handleSizeChange"
@@ -98,7 +101,7 @@
           layout="total, sizes, prev, pager, next, jumper"
           :total="100">
         </el-pagination>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>

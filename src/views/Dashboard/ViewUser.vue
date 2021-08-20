@@ -15,7 +15,7 @@
             <person-information :userData="userData"></person-information>
           </el-tab-pane>
           <el-tab-pane label="Bank Details" name="second">
-            <bank-details :userData="userData"></bank-details>
+            <bank-details :userData="userData.bank_accounts"></bank-details>
           </el-tab-pane>
           <el-tab-pane label="Loan History" name="third">
             <loan-history :userData="userData"></loan-history>
@@ -37,21 +37,15 @@
             <div
               class="border-t border-dash px-6 py-5 flex justify-between items-center"
             >
-              <span class="text-card font-semibold">Value of Loans</span>
-              <span class="text-dashblack font-semibold">0</span>
-            </div>
-            <div
-              class="border-t border-dash px-6 py-5 flex justify-between items-center"
-            >
               <span class="text-card font-semibold">Loan Level</span>
               <span class="text-dashblack font-semibold">{{ userData.loan_level }}</span>
             </div>
-            <div
+            <!-- <div
               class="border-t border-b border-dash px-6 py-5 flex justify-between items-center"
             >
               <span class="text-card font-semibold">Level Progress</span>
               <span class="text-dashblack font-semibold">0%</span>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -108,6 +102,7 @@ export default {
         .then((res) => {
           this.loader = false
           this.userData = res.data.data
+          console.log(this.userData);
         }
       )
       .catch((err) => {

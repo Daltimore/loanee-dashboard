@@ -9,9 +9,10 @@
             <div class="flex flex-col">
               <label class="font-semibold">Fullname</label>
               <el-input
-                v-model="fullname"
+                v-model="fullName"
                 class=""
                 placeholder=""
+                disabled
               ></el-input>
             </div>
           </el-form-item>
@@ -22,6 +23,7 @@
                 v-model="userData.email"
                 class=""
                 placeholder=""
+                disabled
               ></el-input>
             </div>
           </el-form-item>
@@ -34,6 +36,7 @@
                 v-model="userData.phone"
                 class=""
                 placeholder=""
+                disabled
               ></el-input>
             </div>
           </el-form-item>
@@ -44,7 +47,9 @@
                 v-model="userData.date_of_birth"
                 class=""
                 type="date"
-                placeholder="">
+                placeholder=""
+                disabled
+                >
               </el-date-picker>
             </div>
           </el-form-item>
@@ -58,6 +63,7 @@
                 type="textarea"
                 :rows="3"
                 placeholder=""
+                disabled
               ></el-input>
             </div>
           </el-form-item>
@@ -70,6 +76,7 @@
                 v-model="userData.gender"
                 class=""
                 placeholder=""
+                disabled
               ></el-input>
             </div>
           </el-form-item>
@@ -80,6 +87,7 @@
                 v-model="userData.bvn"
                 class=""
                 placeholder=""
+                disabled
               ></el-input>
             </div>
           </el-form-item>
@@ -92,6 +100,7 @@
                 v-model="userData.occupation"
                 class=""
                 placeholder=""
+                disabled
               ></el-input>
             </div>
           </el-form-item>
@@ -102,6 +111,7 @@
                 v-model="userData.work_address"
                 class=""
                 placeholder=""
+                disabled
               ></el-input>
             </div>
           </el-form-item>
@@ -116,16 +126,14 @@ export default {
   props: {
     userData: Object,
   },
-  computed: {
-    fullname() {
-      return this.userData.first_name + " " + this.userData.last_name;
-    }
-  },
   data() {
     return {
-      
+      fullName: ''
     }
-  }
+  },
+  mounted() {
+    this.fullName = this.userData.first_name + " " + this.userData.last_name;
+  },
 }
 </script>
 

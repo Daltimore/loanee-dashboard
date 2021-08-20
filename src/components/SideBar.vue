@@ -70,10 +70,10 @@
         </div>
       </div>
       </router-link>
-      <router-link to="/dashboard/system-log" class="flex items-center pl-8 my-8">
+      <!-- <router-link to="/dashboard/system-log" class="flex items-center pl-8 my-8">
         <img src="@/assets/img/appointments.svg" alt="">
         <span class="text-white pl-4 text-sm">System Log</span>
-      </router-link>
+      </router-link> -->
       <router-link to="#t" class="flex items-center pl-8 my-8">
         <img src="@/assets/img/settings.svg" alt="">
         <span class="text-white pl-4 text-sm">Reports</span>
