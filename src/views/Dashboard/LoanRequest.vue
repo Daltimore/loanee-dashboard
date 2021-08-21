@@ -16,6 +16,7 @@
           v-model="approvalStatus"
           placeholder="Select filter option"
           @change="filterEvent"
+          clearable
         >
           <el-option
             v-for="item in approvalStat"
@@ -28,14 +29,15 @@
       <div class="mr-4">
         <el-input
           placeholder="Search"
-          v-model="input"
+          v-model="searchQuery"
+          @input="search"
         ></el-input>
       </div>
-      <img
+      <!-- <img
         src="@/assets/img/data.png"
         alt=""
         class="mx-4 w-9 h-9 border border-gray-300 p-2 cursor-pointer"
-      >
+      > -->
     </div>
    </div>
    <div class="mt-10">
@@ -126,6 +128,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
+import debounce from 'lodash.debounce'
 
 export default {
   data() {
@@ -139,8 +142,8 @@ export default {
           label: 'Approved'
         },
         {
-          value: 'reject',
-          label: 'Rejected'
+          value: 'declined',
+          label: 'Declined'
         }
       ],
     }
@@ -222,6 +225,9 @@ export default {
       })
       this.getAllLoanRequests()
     },
+    search: debounce(function() {
+      this.getAllLoanRequests()
+    }, 500),
   }
 }
 </script>
