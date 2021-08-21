@@ -16,7 +16,9 @@ export default {
     searchQuery: '',
     approval_status: '',
     payment_status: '',
-    repayment_plan: ''
+    repayment_plan: '',
+    loanHistory: [],
+    numberOfLoans: ''
   },
   mutations: {
     mutate(state, payload) {

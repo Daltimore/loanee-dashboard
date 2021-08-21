@@ -8,8 +8,8 @@
         class="ml-2 w-5 h-6 object-fit mb-10 cursor-pointer"
       >
     </div>
-    <div class="flex" v-if="userData">
-      <div class="w-left bg-white shadow-md">
+    <div class="flex">
+      <div class="w-left bg-white shadow-md" v-if="userData && userId">
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="Personal Information" name="first">
             <person-information :userData="userData"></person-information>
@@ -18,7 +18,7 @@
             <bank-details :userData="userData.bank_accounts"></bank-details>
           </el-tab-pane>
           <el-tab-pane label="Loan History" name="third">
-            <loan-history :userData="userData"></loan-history>
+            <loan-history :userId="userId"></loan-history>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -32,7 +32,7 @@
               class="border-t border-dash px-6 py-5 flex justify-between items-center"
             >
               <span class="text-card font-semibold">Number of Loans</span>
-              <span class="text-dashblack font-semibold">0</span>
+              <span class="text-dashblack font-semibold">{{$store.state.loans.numberOfLoans}}</span>
             </div>
             <div
               class="border-t border-dash px-6 py-5 flex justify-between items-center"
@@ -68,6 +68,7 @@ export default {
     return {
       activeName: 'first',
       loader: false,
+      userId: null,
       currentID: null,
       companyID: null,
       currentRoute: null,
@@ -102,7 +103,8 @@ export default {
         .then((res) => {
           this.loader = false
           this.userData = res.data.data
-          console.log(this.userData);
+          console.log(res.data.data);
+          this.userId = res.data.data.id
         }
       )
       .catch((err) => {
