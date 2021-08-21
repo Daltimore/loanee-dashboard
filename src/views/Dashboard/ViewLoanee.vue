@@ -10,7 +10,7 @@
     </div>
     <div class="flex">
       <div class="w-left bg-white shadow-md">
-        <div>
+        <div class="w-auto">
           <div class="p-6">
             <el-form
               ref="newUser"
@@ -21,8 +21,9 @@
                     <label class="font-semibold">Duration</label>
                     <el-input
                       v-model="duration"
-                      class="w-input"
+                      class=""
                       placeholder=""
+                      disabled
                     ></el-input>
                   </div>
                 </el-form-item>
@@ -31,8 +32,9 @@
                     <label class="font-semibold">Interest (Amount)</label>
                     <el-input
                       v-model="userData.interest"
-                      class="w-input"
+                      class=""
                       placeholder=""
+                      disabled
                     ></el-input>
                   </div>
                 </el-form-item>
@@ -43,8 +45,9 @@
                     <label class="font-semibold">Interest Type</label>
                     <el-input
                       v-model="userData.interest_type"
-                      class="w-input"
+                      class=""
                       placeholder=""
+                      disabled
                     ></el-input>
                   </div>
                 </el-form-item>
@@ -53,8 +56,10 @@
                     <label class="font-semibold">Loan Level</label>
                     <el-input
                       v-model="userData.level"
-                      class="w-input"
-                      placeholder="">
+                      class=""
+                      placeholder=""
+                      disabled
+                    >
                     </el-input>
                   </div>
                 </el-form-item>
@@ -64,9 +69,10 @@
                   <div class="flex flex-col">
                     <label class="font-semibold">Payment Status</label>
                     <el-input
-                      v-model="userData.payment_status"
-                      class="w-input"
+                      v-model="repayment_status"
+                      class=""
                       placeholder=""
+                      disabled
                     ></el-input>
                   </div>
                 </el-form-item>
@@ -75,8 +81,9 @@
                     <label class="font-semibold">Repayment Plan</label>
                     <el-input
                       v-model="userData.repayment_plan"
-                      class="w-input"
+                      class=""
                       placeholder=""
+                      disabled
                     ></el-input>
                   </div>
                 </el-form-item>
@@ -123,7 +130,7 @@
                 v-else
                 class="text-dashblack font-semibold"
               >
-                {{ userData.status }}
+                {{ capitalizeFirstLetter(userData.status) }}
               </span>
             </div>
           </div>
@@ -139,6 +146,7 @@ export default {
     return {
       currentID: null,
       loader: false,
+      repayment_status: '',
       userData: {
         bank_accounts: []
       }
@@ -151,6 +159,8 @@ export default {
       .then((res) => {
         this.loader = false;
         this.userData = res.data.data;
+        this.repayment_status = this.capitalizeFirstLetter(this.userData.repayment_status)
+        console.log(this.repayment_status);
       })
       .catch((err) => {
         this.$toastr.error(err.response.data.message)
@@ -167,6 +177,9 @@ export default {
   methods: {
     goBack() {
       this.$router.go(-1)
+    },
+    capitalizeFirstLetter(string){
+      return string.charAt(0).toUpperCase() + string.slice(1);
     }
   }
 }

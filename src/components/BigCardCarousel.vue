@@ -1,7 +1,7 @@
 <template>
-  <div id="big-card">
+  <div class="bg-white rounded lg:rounded-lg xl:rounded-xl shadow-md">
     <carousel :perPage="perPage">
-      <slide class="px-8">
+      <slide class="px-3 md:px-3 lg:px-6">
         <div class="flex justify-between items-center py-5">
           <h6 class="uppercase font-semibold">loan requests</h6>
           <p class="text-card">Today Thur, 11 Mar</p>
@@ -31,7 +31,7 @@
           >
         </div> -->
       </slide>
-      <slide class="px-8">
+      <slide class="px-3 md:px-3 lg:px-8">
         <div class="flex justify-between items-center py-5">
           <h6 class="uppercase font-semibold">loan requests</h6>
           <p class="text-card">Today Thur, 11 Mar</p>
@@ -49,7 +49,7 @@
           <span class="font-semibold">258,000</span>
         </div>
       </slide>
-      <slide class="px-8">
+      <slide class="px-3 md:px-3 lg:px-8">
         <div class="flex justify-between items-center py-5">
           <h6 class="uppercase font-semibold">loan requests</h6>
           <p class="text-card">Today Thur, 11 Mar</p>
@@ -103,26 +103,5 @@ export default {
 #big-card {
   font-family: 'Lato', sans-serif;
   position: relative;
-}
-#big-card .VueCarousel {
-  width: 415px ;
-  height: auto;
-  background: #ffffff;
-  box-shadow: 0px 3px 6px #00000029;
-  border-radius: 12px;
-}
-
-#big-card .VueCarousel-pagination {
-  text-align: right;
-  width: 22%;
-  margin-left: auto;
-}
-
-#big-card .VueCarousel-dot-container {
-  margin: 0 !important;
-}
-
-#big-card .VueCarousel-dot--active {
-  outline: none !important;
 }
 </style>

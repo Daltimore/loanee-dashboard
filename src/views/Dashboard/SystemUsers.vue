@@ -12,12 +12,12 @@
           @handleCurrentChange="handleCurrentChange"
         ></all-users>
       </el-tab-pane>
-      <el-tab-pane label="Admin" name="second">
+      <!-- <el-tab-pane label="" name="second">
         <admin :userData="user.allUsers"></admin>
-      </el-tab-pane>
-      <el-tab-pane label="Users" name="third">
+      </el-tab-pane> -->
+      <!-- <el-tab-pane label="Users" name="third">
         <normal-users :userData="user.allUsers"></normal-users>
-      </el-tab-pane>
+      </el-tab-pane> -->
   </el-tabs>
   </div>
 </template>
@@ -25,14 +25,12 @@
 <script>
 import { mapActions, mapState } from 'vuex'
 import AllUsers from '../../components/Users/AllUsers'
-import Admin from '../../components/Users/Admin'
-import NormalUsers from '../../components/Users/NormalUser'
+// import Admin from '../../components/Users/Admin'
 
 export default {
   components: {
     AllUsers,
-    Admin,
-    NormalUsers
+    // Admin
   },
   data() {
     return {

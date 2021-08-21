@@ -12,11 +12,13 @@ export default {
     currentPage: 1,
     loaneesCurrentPage: 1,
     loanRequestCurrentPage: 1,
-    perPage: 10,
+    perPage: 5,
     searchQuery: '',
     approval_status: '',
     payment_status: '',
-    repayment_plan: ''
+    repayment_plan: '',
+    loanHistory: [],
+    numberOfLoans: ''
   },
   mutations: {
     mutate(state, payload) {

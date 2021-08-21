@@ -11,12 +11,12 @@
     </div>
     <div class="flex justify-between items-center">
       <button
-        class="bg-dashblack rounded
+        class="bg-navgreen rounded
         w-36 h-11 text-center account text-white focus:outline-none"
       >
         Account Settings
       </button>
-      <p class="text-secondary text-sm px-12">Paul Smith</p>
+      <p class="text-secondary text-sm px-12">{{ name }}</p>
       <img
         src="@/assets/img/notif.svg"
         alt=""
@@ -31,8 +31,10 @@ export default {
   data() {
     return {
       routePath: '',
+      loader: false,
       header: '',
       subHeader: '',
+      name: ''
     }
   },
   watch: {
@@ -89,7 +91,22 @@ export default {
         }
       }
     }
-  }
+  },
+  mounted() {
+    this.getUserName()
+  },
+  methods: {
+    getUserName() {
+      this.loader = true;
+      this.$http.get('/admin/users/me')
+        .then((res) => {
+          this.name = res.data.data.name
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    }
+  },
 }
 </script>
 

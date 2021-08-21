@@ -113,7 +113,7 @@
       @close="handleClose"
     >
       <div class="p-6">
-        <h3 class="text-dashblack font-bold text-2xl pb-8">Add Company</h3>
+        <h3 class="text-dashblack font-bold text-2xl pb-8">{{ currentId === null ? 'Add Company' : 'Edit Company'}}</h3>
         <div>
           <el-form
             ref="addCompany"

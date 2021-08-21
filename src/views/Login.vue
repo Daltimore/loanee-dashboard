@@ -12,7 +12,7 @@
     </div>
     <div class="flex justify-center flex-col">
       <h3 class="font-bold text-4xl text-center mt-16 md:mt-0">
-        The Loan
+        Maono
       </h3>
       <p
         class="text-sub my-9 text-md text-center w-full"

@@ -45,6 +45,12 @@
      v-loading="loans.loader"
     >
       <el-table-column
+        type="index"
+        label="S/N"
+        width="50"
+      >
+      </el-table-column>
+      <el-table-column
         label="Full Name"
       >
         <template slot-scope="scope">
@@ -85,9 +91,9 @@
         @size-change="loaneesHandleSizeChange"
         @current-change="loaneesHandleCurrentChange"
         style="float: right;"
-        :current-page.sync="currentPage"
+        :current-page.sync="customerCurrentPage"
         :page-sizes="pageSizes"
-        :page-size="loans.loaneesCurrentPage"
+        :page-size="loans.perPage"
         layout="total, sizes, prev, pager, next, jumper"
         :total="loans.loaneesTotal">
       </el-pagination>
@@ -123,7 +129,7 @@ export default {
   },
   computed: {
     ...mapState(['loans']),
-    currentPage: {
+    customerCurrentPage: {
       get() {
         return this.loans.loaneesCurrentPage
       },

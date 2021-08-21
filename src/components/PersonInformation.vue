@@ -9,9 +9,10 @@
             <div class="flex flex-col">
               <label class="font-semibold">Fullname</label>
               <el-input
-                v-model="fullname"
-                class="w-input"
+                v-model="fullName"
+                class=""
                 placeholder=""
+                disabled
               ></el-input>
             </div>
           </el-form-item>
@@ -20,8 +21,9 @@
               <label class="font-semibold">Email</label>
               <el-input
                 v-model="userData.email"
-                class="w-input"
+                class=""
                 placeholder=""
+                disabled
               ></el-input>
             </div>
           </el-form-item>
@@ -32,8 +34,9 @@
               <label class="font-semibold">Phone Number</label>
               <el-input
                 v-model="userData.phone"
-                class="w-input"
+                class=""
                 placeholder=""
+                disabled
               ></el-input>
             </div>
           </el-form-item>
@@ -42,9 +45,11 @@
               <label class="font-semibold">Date of Birth</label>
               <el-date-picker
                 v-model="userData.date_of_birth"
-                class="w-input"
+                class=""
                 type="date"
-                placeholder="">
+                placeholder=""
+                disabled
+                >
               </el-date-picker>
             </div>
           </el-form-item>
@@ -58,6 +63,7 @@
                 type="textarea"
                 :rows="3"
                 placeholder=""
+                disabled
               ></el-input>
             </div>
           </el-form-item>
@@ -68,8 +74,9 @@
               <label class="font-semibold">Gender</label>
               <el-input
                 v-model="userData.gender"
-                class="w-input"
+                class=""
                 placeholder=""
+                disabled
               ></el-input>
             </div>
           </el-form-item>
@@ -78,8 +85,9 @@
               <label class="font-semibold">BVN</label>
               <el-input
                 v-model="userData.bvn"
-                class="w-input"
+                class=""
                 placeholder=""
+                disabled
               ></el-input>
             </div>
           </el-form-item>
@@ -90,8 +98,9 @@
               <label class="font-semibold">Occupation</label>
               <el-input
                 v-model="userData.occupation"
-                class="w-input"
+                class=""
                 placeholder=""
+                disabled
               ></el-input>
             </div>
           </el-form-item>
@@ -100,8 +109,9 @@
               <label class="font-semibold">Work Address</label>
               <el-input
                 v-model="userData.work_address"
-                class="w-input"
+                class=""
                 placeholder=""
+                disabled
               ></el-input>
             </div>
           </el-form-item>
@@ -116,23 +126,21 @@ export default {
   props: {
     userData: Object,
   },
-  computed: {
-    fullname() {
-      return this.userData.first_name + " " + this.userData.last_name;
-    }
-  },
   data() {
     return {
-      
+      fullName: ''
     }
-  }
+  },
+  mounted() {
+    this.fullName = this.userData.first_name + " " + this.userData.last_name;
+  },
 }
 </script>
 
 <style>
-.w-input {
+/* . {
   width: 24rem;
-}
+} */
 .el-input.is-active .el-input__inner, .el-input__inner:focus {
   border-color: #11141A;
   outline: 0;

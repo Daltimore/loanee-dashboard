@@ -60,7 +60,10 @@
             <span v-if="scope.row.role === 'super_admin'">
               Super Admin
             </span>
-            <span v-else>Loanee</span>
+            <span v-else-if="scope.row.role === 'admin'">
+              Admin
+            </span>
+            <span v-else>Moanee</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -137,6 +140,7 @@ export default {
         return user
       }
     })
+    console.log(this.allAdminUsers);
   }
 }
 </script>
