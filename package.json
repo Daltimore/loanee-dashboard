@@ -7,7 +7,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "copy-htaccess-to-dist":"cp .htaccess dist/.htaccess",
-    "deploy":"npm run build && npm run copy-htaccess-to-dist"
+    "deploy":"git pull origin main && npm run build && npm run copy-htaccess-to-dist"
   },
   "dependencies": {
     "axios": "^0.21.1",
