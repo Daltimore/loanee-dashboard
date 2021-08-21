@@ -91,6 +91,7 @@ export default {
         .then((res) => {
           this.loader = false
           this.userData = res.data.data
+          this.userId = res.data.data.id
         })
         .catch((err) => {
           this.loader = false
@@ -103,7 +104,6 @@ export default {
         .then((res) => {
           this.loader = false
           this.userData = res.data.data
-          console.log(res.data.data);
           this.userId = res.data.data.id
         }
       )
