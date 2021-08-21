@@ -31,11 +31,11 @@
           @input="search"
         ></el-input>
       </div>
-      <img
+      <!-- <img
         src="@/assets/img/data.png"
         alt=""
         class="mx-4 w-9 h-9 border border-gray-300 p-2 cursor-pointer"
-      >
+      > -->
     </div>
    </div>
    <div class="mt-10">

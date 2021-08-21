@@ -23,7 +23,7 @@
           v-model="input"
         ></el-input>
       </div>
-      <img
+      <!-- <img
         src="@/assets/img/add.svg"
         alt=""
         class="-mt-1.5 cursor-pointer"
@@ -32,7 +32,7 @@
         src="@/assets/img/data.png"
         alt=""
         class="mx-4 mt-1 w-9 h-9 border border-gray-300 p-2 cursor-pointer"
-      >
+      > -->
     </div>
     <div class="mt-10">
       <el-table :data="allAdminUsers" width="100%">

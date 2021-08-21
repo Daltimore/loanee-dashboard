@@ -116,8 +116,8 @@ a {
 
 a.router-link-exact-active {
   color: #ffffff !important;
-  border-right: 4px solid #ffffff;
-  font-weight: 600;
+  /* border-right: 4px solid #ffffff; */
+  font-weight: 900 !important;
 }
 
 </style>

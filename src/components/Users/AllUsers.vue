@@ -24,7 +24,7 @@
           @input="search"
         ></el-input>
       </div>
-      <img
+      <!-- <img
         @click.prevent="openModal"
         src="@/assets/img/add.svg"
         alt=""
@@ -34,7 +34,7 @@
         src="@/assets/img/data.png"
         alt=""
         class="mx-4 mt-1 w-9 h-9 border border-gray-300 p-2 cursor-pointer"
-      >
+      > -->
     </div>
     <div class="mt-10">
       <el-table :data="userData" width="100%">
