@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed inset-y-0 left-0 w-40 xl:w-52 transition duration-300 transform bg-dashgreen overflow-y-auto lg:translate-x-0 lg:static lg:inset-0">
+  <div class="fixed inset-y-0 left-0 w-48 xl:w-52 transition duration-300 transform bg-dashgreen overflow-y-auto lg:translate-x-0 lg:static lg:inset-0">
     <div class="pt-32">
       <router-link to="/dashboard" class="flex items-center px-8">
         <img src="@/assets/img/dashboard-active.svg" alt="">
@@ -26,7 +26,7 @@
               <span class="text-xs">Manage Loans</span>
             </router-link>
             <router-link
-              class="block text-white py-2 mt-2 text-sm font-semibold pr-2 w-full"
+              class="block text-white py-2 mt-2 text-xs font-semibold pr-2 w-full"
               to="/dashboard/loan-request"
             >
               Loan Request
@@ -49,19 +49,19 @@
         <div v-if="open1" class="w-full mt-2 origin-top-right rounded-md shadow-md">
           <div :class="open1 === true ? 'pl-9' : 'px-2 rounded-md'">
             <router-link
-              class="flex text-white py-2 mt-2 text-sm font-semibold pr-5"
+              class="flex text-white py-2 mt-2 text-xs font-semibold pr-5"
               to="/dashboard/customers"
             >
               <span>Customers</span>
             </router-link>
             <router-link
-              class="flex text-white py-2 mt-2 text-sm font-semibold pr-5"
+              class="flex text-white py-2 mt-2 text-xs font-semibold pr-5"
               to="/dashboard/system-users"
             >
               <span>System Users</span>
             </router-link>
             <router-link
-              class="flex text-white py-2 mt-2 text-sm font-semibold pr-5"
+              class="flex text-white py-2 mt-2 text-xs font-semibold pr-5"
               to="/dashboard/user-groups"
             >
               <span>User Group</span>
@@ -70,10 +70,10 @@
         </div>
       </div>
       </router-link>
-      <router-link to="/dashboard/system-log" class="flex items-center pl-8 my-8">
+      <!-- <router-link to="/dashboard/system-log" class="flex items-center pl-8 my-8">
         <img src="@/assets/img/appointments.svg" alt="">
         <span class="text-white pl-4 text-sm">System Log</span>
-      </router-link>
+      </router-link> -->
       <router-link to="#t" class="flex items-center pl-8 my-8">
         <img src="@/assets/img/settings.svg" alt="">
         <span class="text-white pl-4 text-sm">Reports</span>

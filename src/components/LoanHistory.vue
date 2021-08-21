@@ -2,32 +2,40 @@
   <div>
     <div class="mt-10">
       <el-table
-        :data="tableData"
+        :data="$store.state.loans.loanHistory"
         style="width: 100%;"
       >
         <el-table-column
-          prop="loan_date"
           label="Loan Date"
-        ></el-table-column>
+        >
+          <template slot-scope="scope">
+            <span>{{ scope.row.approved_at | formatDate }}</span>
+          </template>
+        </el-table-column>
         <el-table-column
           label="Loan Amount"
         >
           <template slot-scope="scope">
-            <span> {{ scope.row.loan_amount }}</span>
+            <span> {{ scope.row.amount_received | currencyFormat }}</span>
           </template>
         </el-table-column>
+        <el-table-column label="Duration">
+          <template slot-scope="scope">
+            <span>{{ scope.row.duration }} month</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="repayment_plan"
+          label="Repayment Plan"
+        ></el-table-column>
         <el-table-column
           label="Status"
         >
           <template slot-scope="scope">
-            <span v-if="scope.row.is_verified === 1">Active</span>
+            <span v-if="scope.row.status === 'active'">Active</span>
             <span v-else>Inactive</span>
           </template>
         </el-table-column>
-        <el-table-column
-          prop="ontime"
-          label="On-Time Repayment"
-        ></el-table-column>
       </el-table>
       <!-- <div class="mt-10">
         <el-pagination
@@ -47,11 +55,17 @@
 
 <script>
 export default {
+  props: {
+    userId: Number
+  },
   data() {
     return {
-      tableData: [
-      ]
+      loading: false,
+      tableData: []
     }
+  },
+  mounted() {
+    this.fetchAllLoanHistory();
   },
   methods: {
     currencyFormat(number) {
@@ -62,6 +76,19 @@ export default {
     },
     handleCurrentChange(val) {
       console.log(`current page: ${val}`);
+    },
+    fetchAllLoanHistory() {
+      this.loading = true;
+      if(this.userId !== undefined) {
+        this.$http.get(`/admin/loans/requests/loanees/${this.userId}`)
+        .then((res) => {
+          this.$store.state.loans.numberOfLoans = res.data.data.total
+          this.$store.state.loans.loanHistory = res.data.data.results
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+      }
     }
   }
 

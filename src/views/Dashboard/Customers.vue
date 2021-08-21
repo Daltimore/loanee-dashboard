@@ -45,6 +45,12 @@
      v-loading="loans.loader"
     >
       <el-table-column
+        type="index"
+        label="S/N"
+        width="50"
+      >
+      </el-table-column>
+      <el-table-column
         label="Full Name"
       >
         <template slot-scope="scope">

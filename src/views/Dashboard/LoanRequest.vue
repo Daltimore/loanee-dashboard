@@ -56,7 +56,7 @@
         label="Amount (N)"
       >
         <template slot-scope="scope">
-          <span> {{ scope.row.amount_requested | currencyFormat }}</span>
+          <span> {{ scope.row.amount_received | currencyFormat }}</span>
         </template>
       </el-table-column>
       <el-table-column
