@@ -31,13 +31,13 @@
           @input="search"
         ></el-input>
       </div>
-      <!-- <img
+      <img
         @click.prevent="openModal"
         src="@/assets/img/add.svg"
         alt=""
         class="-mt-1.5 cursor-pointer"
       >
-      <img
+      <!-- <img
         src="@/assets/img/data.png"
         alt=""
         class="mx-4 w-9 h-9 border border-gray-300 p-2 cursor-pointer"
